@@ -561,12 +561,13 @@ html, body{ overflow-x: hidden; }
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID" crossorigin="anonymous"></script>
 
 
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=1">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=1">
-<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=1">
-<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=1">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1">
-<link rel="manifest" href="/site.webmanifest?v=1">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=1">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=1">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png?v=1">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png?v=1">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=1">
+<link rel="manifest" href="site.webmanifest?v=1">
+
 <meta name="theme-color" content="#ff8fcf">
 
 
