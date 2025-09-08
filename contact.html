@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us - Cute CopyMoji | Inquiries & Support</title>
+<meta name="description" content="Have questions or feedback? Contact Cute CopyMoji for inquiries, support, or collaboration opportunities. We're here to help.">
+
+  <meta name="description" content="Contact Cute CopyMoji." />
+  <link rel="icon" href="favicon.ico" />
+  <script src="include-layout.js" defer></script>
+  <style>
+    .legal-wrap{width:90%;margin:16px auto 0}
+    .card{background:var(--card);color:var(--text);border:1px solid var(--border);
+          border-radius:16px;box-shadow:var(--shadow);padding:18px}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0 12px}
+    .tab{border:1px solid var(--border);background:var(--card);color:var(--text);
+          border-radius:12px;padding:8px 12px;cursor:pointer;font-size:14px}
+    .tab[aria-selected="true"]{background:var(--chip);border-color:var(--accent)}
+    .pane{display:none}
+    .pane[aria-hidden="false"]{display:block}
+    .muted{color:var(--muted);font-size:12px;margin-bottom:12px}
+    .legal h1{margin:0 0 6px;font-size:24px}
+    .legal h2{font-size:16px;margin:16px 0 8px}
+    .legal p,.legal li{font-size:14px;line-height:1.7}
+    .legal ul{margin:8px 0 0 18px}
+  
+    .contact-form{width: 100%; margin: 12px auto; text-align: left;}
+    .contact-form h2{ text-align:center; margin-top:0; }
+    .contact-form .grid{ display:grid; gap:12px; }
+    .contact-form .grid.two{ grid-template-columns: 1fr; }
+    input, select, textarea{ width:100%; padding:12px; border-radius:12px; border:1px solid var(--border);
+      background:var(--bg); color:var(--text); outline:none; }
+    textarea{ min-height: 220px; }
+    .btn.primary{ display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      border:1px solid var(--border); background:var(--card); color:var(--text);
+      border-radius:12px; padding:12px 18px; cursor:pointer; }
+    .btn.primary:hover{ background:var(--chip); }
+    .center{ display:flex; justify-content:center; }
+    
+    .faq-item{ border:1px solid var(--border); border-radius:12px; padding:8px 12px; background:var(--card); margin:8px 0; }
+    .faq-item summary{ cursor:pointer; font-weight:600; outline:none; }
+    .faq-item .ans{ margin-top:8px; font-size:14px; line-height:1.7; color:var(--text); }
+    .faq-item[open]{ box-shadow:var(--shadow); }
+    
+    /* Better spacing & line breaks for FAQ */
+    #faqCard{ margin-bottom: 32px }
+    .faq-item .ans{ white-space: pre-line; }
+    
+    .tabs{ margin-bottom: 10px; }
+    
+    #faqWrapper{ margin: 8px 0 32px 0; }
+    
+    /* pane-visibility-fix */
+    .pane{ display: none; }
+    .pane[aria-hidden="false"]{ display: block; }
+    /* FAQ heading spacing */
+    #faqTitle{ margin-top: 0; }
+    </style>
+</head>
+
+
+
+
+
+
+<body>
+  <div id="app-header"></div>
+
+  <main class="legal-wrap">
+    
+
+
+<div class="tabs" role="tablist" aria-label="Languages">
+    <button class="tab" role="tab" data-lang="ko" aria-selected="true">한국어</button>
+    <button class="tab" role="tab" data-lang="en" aria-selected="false">English</button>
+    <button class="tab" role="tab" data-lang="ja" aria-selected="false">日本語</button>
+    <button class="tab" role="tab" data-lang="es" aria-selected="false">Español</button>
+    <button class="tab" role="tab" data-lang="pt" aria-selected="false">Português</button>
+    <button class="tab" role="tab" data-lang="de" aria-selected="false">Deutsch</button>
+    <button class="tab" role="tab" data-lang="fr" aria-selected="false">Français</button>
+  </div>
+
+<div class="card legal">
+  <h1 id="contactTitle">문의하기</h1>
+  <p>
+    <span id="emailLabel">이메일</span>:
+    <a href="mailto:infodeskline@gmail.com">infodeskline@gmail.com</a>
+  </p>
+
+  <form id="contactForm">
+    <div class="grid">
+      <!-- (기존 폼 필드 계속) -->
+
+
+</div></div>
+<div id="faqWrapper">
+<!-- FAQ START -->
+<div class="card faq-section" style="margin-top:20px">
+  <h2 id="faqTitle">FAQ</h2>
+  <div class="faq-panes">
+    <div class="pane" data-lang="ko" aria-hidden="false">
+      <details><summary>이 사이트는 무료인가요?</summary><p>네, 모든 기능은 무료로 제공됩니다.</p></details>
+      <details><summary>이메일 문의 시 답변을 꼭 받나요?</summary><p>개별 회신은 보장되지 않습니다. 주요 공지사항은 사이트를 통해 안내됩니다.</p></details>
+      <details><summary>이모티콘은 상업적 사용이 가능한가요?</summary><p>출처가 불분명한 경우가 많으므로 사용 시 주의가 필요합니다.</p></details>
+    
+      <details><summary>즐겨찾기/직접 추가 데이터는 어떻게 저장되나요?</summary><p>즐겨찾기와 직접 추가한 이모티콘은 브라우저의 로컬 스토리지에만 저장됩니다.<br>쿠키/로컬 스토리지를 삭제하거나 브라우저·기기를 바꾸면 데이터가 초기화됩니다.</p></details>
+      
+      <details class="faq-optout"><summary>콘텐츠 삭제 요청</summary><p>이 사이트에 본인의 콘텐츠가 게시되는 것을 원하지 않는 원작자의 경우, 상단의 이메일로 연락해 주시기 바랍니다.</p></details>
+
+
+<details><summary>어떤 브라우저/기기에서 지원되나요?</summary><p>최신 버전의 Chrome, Edge, Safari, Firefox 등 대부분의 브라우저와 PC·모바일 환경에서 이용 가능합니다.</p></details>
+<details><summary>새로운 이모티콘을 제안할 수 있나요?</summary><p>제안은 가능하나, 모든 제안이 반영되지는 않을 수 있습니다.</p></details>
+<details><summary>간혹 깨져 보이는 이모티콘이 있어요!</summary><p>일부 이모티콘은 사용하는 브라우저, 운영체제, 기기 종류에 따라 다르게 표시될 수 있습니다.<br>또한 정렬이 어긋나 보이더라도 실제로 복사하여 붙여넣으면 올바르게 표시되는 경우가 많습니다.</p></details>
+</div>
+    <div class="pane" data-lang="en" aria-hidden="true">
+      <details><summary>Is this site free?</summary><p>Yes, all features are free to use.</p></details>
+      <details><summary>Will I get a reply if I send an email?</summary><p>Replies are not guaranteed. Important updates will be posted on the site.</p></details>
+      <details><summary>Can I use emoticons commercially?</summary><p>Many sources are unclear; please use with caution.</p></details>
+    
+      <details><summary>How are favorites/custom items stored?</summary><p>Favorites and custom emoticons are stored only in your browser’s local storage.<br>Clearing cookies/storage or changing browser/device will reset them.</p></details>
+      
+      <details class="faq-optout"><summary>Content Removal Request</summary><p>If you are the original creator and do not wish your content to appear on this site, please contact us via the email above.</p></details>
+
+
+<details><summary>Which browsers/devices are supported?</summary><p>The site works on most modern browsers such as Chrome, Edge, Safari, and Firefox, and supports both desktop and mobile environments.</p></details>
+<details><summary>Can I suggest new emoticons?</summary><p>Suggestions are welcome, but not all of them may be adopted.</p></details>
+<details><summary>Some emoticons look broken!</summary><p>Depending on your browser, operating system, or device, some emoticons may render differently.<br>Also, even if alignment looks off on the site, they often display correctly once copied and pasted elsewhere.</p></details>
+</div>
+    <div class="pane" data-lang="ja" aria-hidden="true">
+      <details><summary>このサイトは無料ですか？</summary><p>はい、すべての機能は無料です。</p></details>
+      <details><summary>メールを送れば必ず返信がありますか？</summary><p>個別返信は保証されません。重要なお知らせはサイトで案内されます。</p></details>
+      <details><summary>絵文字は商用利用できますか？</summary><p>出典が不明な場合が多いため、利用には注意が必要です。</p></details>
+    
+      <details><summary>お気に入り/カスタム項目はどのように保存されますか？</summary><p>お気に入りやカスタム顔文字はブラウザのローカルストレージのみに保存されます。<br>クッキー/ストレージの削除やブラウザ・端末の変更でリセットされます。</p></details>
+      
+      <details class="faq-optout"><summary>コンテンツ削除のご依頼</summary><p>ご自身のコンテンツが本サイトに掲載されることを望まない原作者の方は、上記のメールまでご連絡ください。</p></details>
+
+
+<details><summary>どのブラウザ/デバイスで利用できますか？</summary><p>最新バージョンの Chrome、Edge、Safari、Firefox など主要なブラウザ、および PC・モバイル環境で利用できます。</p></details>
+<details><summary>新しい絵文字を提案できますか？</summary><p>提案は可能ですが、すべてが採用されるわけではありません。</p></details>
+<details><summary>絵文字が崩れて見えることがあります！</summary><p>ブラウザ、OS、デバイスによって表示が異なる場合があります。<br>また、サイト内で位置がずれて見えても、実際にコピーして貼り付けると正しく表示されることが多いです。</p></details>
+</div>
+    <div class="pane" data-lang="es" aria-hidden="true">
+      <details><summary>¿El sitio es gratuito?</summary><p>Sí, todas las funciones son gratuitas.</p></details>
+      <details><summary>¿Recibiré respuesta si envío un correo?</summary><p>No se garantiza respuesta individual. Actualizaciones importantes se publicarán en el sitio.</p></details>
+      <details><summary>¿Puedo usar los emoticonos comercialmente?</summary><p>Muchas fuentes son desconocidas; úsalo con precaución.</p></details>
+    
+      <details><summary>¿Cómo se guardan favoritos/elementos personalizados?</summary><p>Los favoritos y emoticonos personalizados se guardan solo en el almacenamiento local del navegador.<br>Al borrar cookies/almacenamiento o cambiar de navegador/dispositivo, se restablecerán.</p></details>
+      
+      <details class="faq-optout"><summary>Solicitud de eliminación de contenido</summary><p>Si usted es el creador original y no desea que su contenido aparezca en este sitio, comuníquese con nosotros al correo electrónico indicado arriba.</p></details>
+
+
+<details><summary>¿Qué navegadores/dispositivos son compatibles?</summary><p>El sitio funciona en la mayoría de los navegadores modernos como Chrome, Edge, Safari y Firefox, y es compatible con entornos de escritorio y móviles.</p></details>
+<details><summary>¿Puedo sugerir nuevos emoticonos?</summary><p>Se aceptan sugerencias, pero no todas podrán ser adoptadas.</p></details>
+<details><summary>¡Algunos emoticonos se ven rotos!</summary><p>Según el navegador, sistema operativo o dispositivo, algunos emoticonos pueden mostrarse de forma diferente.<br>Aun si la alineación se ve rara en el sitio, a menudo se muestran correctamente una vez copiados y pegados.</p></details>
+</div>
+    <div class="pane" data-lang="pt" aria-hidden="true">
+      <details><summary>O site é gratuito?</summary><p>Sim, todos os recursos são gratuitos.</p></details>
+      <details><summary>Receberei resposta se enviar um e-mail?</summary><p>As respostas não são garantidas. Atualizações importantes serão publicadas no site.</p></details>
+      <details><summary>Posso usar os emoticons comercialmente?</summary><p>Muitas fontes são desconhecidas; use com cautela.</p></details>
+    
+      <details><summary>Como são salvos favoritos/itens personalizados?</summary><p>Favoritos e emoticons personalizados são salvos apenas no armazenamento local do navegador.<br>Limpar cookies/armazenamento ou trocar de navegador/dispositivo os reiniciará.</p></details>
+      
+      <details class="faq-optout"><summary>Solicitação de remoção de conteúdo</summary><p>Se você é o criador original e não deseja que seu conteúdo apareça neste site, entre em contato conosco pelo e-mail acima.</p></details>
+
+
+<details><summary>Quais navegadores/dispositivos são suportados?</summary><p>O site funciona na maioria dos navegadores modernos, como Chrome, Edge, Safari e Firefox, e é compatível com ambientes desktop e mobile.</p></details>
+<details><summary>Posso sugerir novos emoticons?</summary><p>Sugestões são bem-vindas, mas nem todas poderão ser adotadas.</p></details>
+<details><summary>Alguns emoticons parecem quebrados!</summary><p>Dependendo do navegador, sistema operacional ou dispositivo, alguns emoticons podem ser exibidos de forma diferente.<br>Mesmo que o alinhamento pareça errado no site, muitas vezes eles aparecem corretamente após copiar e colar.</p></details>
+</div>
+    <div class="pane" data-lang="de" aria-hidden="true">
+      <details><summary>Ist die Seite kostenlos?</summary><p>Ja, alle Funktionen sind kostenlos.</p></details>
+      <details><summary>Bekomme ich eine Antwort auf meine E-Mail?</summary><p>Antworten sind nicht garantiert. Wichtige Updates werden auf der Website veröffentlicht.</p></details>
+      <details><summary>Können Emoticons kommerziell genutzt werden?</summary><p>Viele Quellen sind unklar; bitte vorsichtig verwenden.</p></details>
+    
+      <details><summary>Wie werden Favoriten/benutzerdefinierte Elemente gespeichert?</summary><p>Favoriten und benutzerdefinierte Emoticons werden nur im lokalen Speicher Ihres Browsers gespeichert. Das<br>Das Löschen von Cookies/Speicher oder ein Browser-/Gerätewechsel setzt sie zurück.</p></details>
+      
+      <details class="faq-optout"><summary>Anfrage zur Inhaltsentfernung</summary><p>Wenn Sie der ursprüngliche Urheber sind und nicht möchten, dass Ihre Inhalte auf dieser Website erscheinen, kontaktieren Sie uns bitte über die oben angegebene E‑Mail.</p></details>
+
+
+<details><summary>Welche Browser/Geräte werden unterstützt?</summary><p>Die Seite funktioniert in den meisten modernen Browsern wie Chrome, Edge, Safari und Firefox und unterstützt sowohl Desktop- als auch Mobilgeräte.</p></details>
+<details><summary>Kann ich neue Emoticons vorschlagen?</summary><p>Vorschläge sind willkommen, aber nicht alle können übernommen werden.</p></details>
+<details><summary>Manche Emoticons sehen fehlerhaft aus!</summary><p>Je nach Browser, Betriebssystem oder Gerät können einige Emoticons unterschiedlich dargestellt werden.<br>Auch wenn die Ausrichtung auf der Seite nicht stimmt, werden sie nach dem Kopieren und Einfügen oft korrekt angezeigt.</p></details>
+</div>
+    <div class="pane" data-lang="fr" aria-hidden="true">
+      <details><summary>Le site est-il gratuit ?</summary><p>Oui, toutes les fonctionnalités sont gratuites.</p></details>
+      <details><summary>Vais-je recevoir une réponse à mon e-mail ?</summary><p>Les réponses ne sont pas garanties. Les mises à jour importantes seront publiées sur le site.</p></details>
+      <details><summary>Puis-je utiliser les émoticônes commercialement ?</summary><p>Beaucoup de sources sont inconnues ; utilisez-les avec prudence.</p></details>
+    
+      <details><summary>Comment sont enregistrés les favoris/éléments personnalisés ?</summary><p>Les favoris et émoticônes personnalisés sont stockés uniquement dans le stockage local du navigateur.<br>Effacer les cookies/le stockage ou changer de navigateur/appareil les réinitialise.</p></details>
+      
+      <details class="faq-optout"><summary>Demande de suppression de contenu</summary><p>Si vous êtes l’auteur original et ne souhaitez pas que votre contenu apparaisse sur ce site, veuillez nous contacter à l’adresse e‑mail ci‑dessus.</p></details>
+
+
+<details><summary>Quels navigateurs/appareils sont pris en charge ?</summary><p>Le site fonctionne sur la plupart des navigateurs modernes tels que Chrome, Edge, Safari et Firefox, et prend en charge les environnements de bureau et mobiles.</p></details>
+<details><summary>Puis-je proposer de nouveaux émoticônes ?</summary><p>Les suggestions sont les bienvenues, mais elles ne seront pas toutes retenues.</p></details>
+<details><summary>Certains émoticônes semblent cassés !</summary><p>Selon le navigateur, le système d’exploitation ou l’appareil, certains émoticônes peuvent s’afficher différemment.<br>Même si l’alignement semble incorrect sur le site, ils s’affichent souvent correctement une fois copiés-collés.</p></details>
+</div>
+  </div>
+</div>
+<!-- FAQ END -->
+</div></main>
+
+
+  <script>
+    // Tabs
+    document.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.tab');
+      if(!btn || !btn.closest('.tabs')) return;
+      const lang = btn.dataset.lang;
+      const root = btn.closest('main');
+      root.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t===btn ? 'true' : 'false'));
+      root.querySelectorAll('.pane').forEach(p => p.setAttribute('aria-hidden', p.dataset.lang === lang ? 'false' : 'true'));
+    });
+
+    // Mailto form submit
+    const form = document.getElementById('contactForm');
+    form?.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(form);
+      const subject = encodeURIComponent(fd.get('subject'));
+      const body = encodeURIComponent(
+        `Name: ${fd.get('name')}
+Email: ${fd.get('email')}
+
+${fd.get('message')}`
+      );
+      location.href = `mailto:infodeskline@gmail.com?subject=${subject}&body=${body}`;
+    });
+  </script>
+
+  <div id="app-footer"></div>
+
+<script>
+  // Language auto-detect on first load (fallback to Korean)
+  (function(){
+    const root = document.querySelector('main');
+    if(!root) return;
+    // If a tab already explicitly selected to non-ko by server/editor, respect it once loaded.
+    const hasExplicit = root.querySelector('.tabs .tab[aria-selected="true"]');
+    // Map browser language to our set
+    const map = (code)=>{
+      if(!code) return 'ko';
+      code = code.toLowerCase();
+      if (code.startsWith('ko')) return 'ko';
+      if (code.startsWith('en')) return 'en';
+      if (code.startsWith('ja')) return 'ja';
+      if (code.startsWith('es')) return 'es';
+      if (code.startsWith('pt')) return 'pt';
+      if (code.startsWith('de')) return 'de';
+      if (code.startsWith('fr')) return 'fr';
+      return 'ko';
+    };
+    const lang = map(navigator.language || (navigator.languages && navigator.languages[0]));
+    // If Korean is the default and explicit != ko, or no explicit selection, set by browser lang
+    // We always re-apply once to fix any mismatched panes.
+    const setLang = (l)=>{
+      root.querySelectorAll('.tabs .tab').forEach(btn => {
+        btn.setAttribute('aria-selected', btn.dataset.lang === l ? 'true' : 'false');
+      });
+      root.querySelectorAll('.pane').forEach(p => {
+        p.setAttribute('aria-hidden', p.dataset.lang === l ? 'false' : 'true');
+      });
+    };
+    setLang(lang);
+  })();
+</script>
+
+
+<script>
+  (function(){
+    const I18N = {
+      ko: {
+        sendTitle: "문의하기",
+        sendBtn: "이메일로 보내기",
+        name: "이름",
+        email: "이메일",
+        category: "분류",
+        subject: "제목",
+        message: "메시지",
+        tip: "해당 양식은 이메일 앱을 열고 내용을 자동으로 채워줍니다.",
+        cat_general: "일반 문의",
+        cat_bug: "버그 신고",
+        cat_ads: "광고/비즈니스",
+        ph_name: "이름을 입력하세요",
+        ph_email: "you@example.com",
+        ph_subject: "무엇을 도와드릴까요?",
+        ph_message: "가능한 많은 상세 내용을 적어주세요."
+      },
+      en: {
+        sendTitle: "Send a Message",
+        sendBtn: "Send via Email",
+        name: "Name",
+        email: "Email",
+        category: "Category",
+        subject: "Subject",
+        message: "Message",
+        tip: "The form opens your email app with the details pre-filled.",
+        cat_general: "General",
+        cat_bug: "Bug Report",
+        cat_ads: "Ads / Business",
+        ph_name: "Your name",
+        ph_email: "you@example.com",
+        ph_subject: "How can we help?",
+        ph_message: "Please include as much detail as possible."
+      },
+      ja: {
+        sendTitle: "メッセージを送信",
+        sendBtn: "メールで送信",
+        name: "名前",
+        email: "メール",
+        category: "カテゴリー",
+        subject: "件名",
+        message: "メッセージ",
+        tip: "このフォームはメールアプリを開き、内容を自動入力します。",
+        cat_general: "一般",
+        cat_bug: "バグ報告",
+        cat_ads: "広告 / ビジネス",
+        ph_name: "お名前",
+        ph_email: "you@example.com",
+        ph_subject: "どのようにお手伝いできますか？",
+        ph_message: "できるだけ詳しくご記入ください。"
+      },
+      es: {
+        sendTitle: "Enviar un mensaje",
+        sendBtn: "Enviar por correo",
+        name: "Nombre",
+        email: "Correo",
+        category: "Categoría",
+        subject: "Asunto",
+        message: "Mensaje",
+        tip: "Este formulario abre tu correo con los datos precompletados.",
+        cat_general: "General",
+        cat_bug: "Reporte de errores",
+        cat_ads: "Anuncios / Negocios",
+        ph_name: "Tu nombre",
+        ph_email: "you@example.com",
+        ph_subject: "¿Cómo podemos ayudar?",
+        ph_message: "Incluye la mayor cantidad de detalles posible."
+      },
+      pt: {
+        sendTitle: "Enviar uma mensagem",
+        sendBtn: "Enviar por e-mail",
+        name: "Nome",
+        email: "Email",
+        category: "Categoria",
+        subject: "Assunto",
+        message: "Mensagem",
+        tip: "O formulário abre seu app de e-mail com os dados preenchidos.",
+        cat_general: "Geral",
+        cat_bug: "Relatar bug",
+        cat_ads: "Anúncios / Negócios",
+        ph_name: "Seu nome",
+        ph_email: "you@example.com",
+        ph_subject: "Como podemos ajudar?",
+        ph_message: "Inclua o máximo de detalhes possível."
+      },
+      de: {
+        sendTitle: "Nachricht senden",
+        sendBtn: "Per E-Mail senden",
+        name: "Name",
+        email: "E-Mail",
+        category: "Kategorie",
+        subject: "Betreff",
+        message: "Nachricht",
+        tip: "Das Formular öffnet Ihr E-Mail-Programm mit vorausgefüllten Angaben.",
+        cat_general: "Allgemein",
+        cat_bug: "Fehler melden",
+        cat_ads: "Werbung / Business",
+        ph_name: "Ihr Name",
+        ph_email: "you@example.com",
+        ph_subject: "Wie können wir helfen?",
+        ph_message: "Bitte so viele Details wie möglich angeben."
+      },
+      fr: {
+        sendTitle: "Envoyer un message",
+        sendBtn: "Envoyer par e‑mail",
+        name: "Nom",
+        email: "E‑mail",
+        category: "Catégorie",
+        subject: "Objet",
+        message: "Message",
+        tip: "Ce formulaire ouvre votre e‑mail avec les détails pré-remplis.",
+        cat_general: "Général",
+        cat_bug: "Signaler un bug",
+        cat_ads: "Publicité / Business",
+        ph_name: "Votre nom",
+        ph_email: "you@example.com",
+        ph_subject: "Comment pouvons-nous aider ?",
+        ph_message: "Veuillez inclure autant de détails que possible."
+      }
+    };
+
+    const I18N = {
+  ko: {
+    sendTitle: "문의하기",
+    emailLabel: "이메일",
+    // ...생략...
+  },
+  en: {
+    sendTitle: "Send a Message",
+    emailLabel: "Email",
+    // ...
+  },
+  ja: {
+    sendTitle: "メッセージを送信",
+    emailLabel: "メール",
+    // ...
+  },
+  es: {
+    sendTitle: "Enviar un mensaje",
+    emailLabel: "Correo",
+    // ...
+  },
+  pt: {
+    sendTitle: "Enviar uma mensagem",
+    emailLabel: "Email",
+    // ...
+  },
+  de: {
+    sendTitle: "Nachricht senden",
+    emailLabel: "E-Mail",
+    // ...
+  },
+  fr: {
+    sendTitle: "Envoyer un message",
+    emailLabel: "E-mail",
+    // ...
+  }
+};
+
+
+    function getSelectedLang(){
+      const sel = document.querySelector('.tabs .tab[aria-selected="true"]');
+      return sel ? sel.dataset.lang : 'ko';
+    }
+
+    function applyI18nContact(lang){
+      const t = I18N[lang] || I18N.ko;
+      const q = (sel)=>document.querySelector(sel);
+      // Headings & labels
+      q('#sendTitle') && (q('#sendTitle').textContent = t.sendTitle);
+      q('#labelName') && (q('#labelName').childNodes[0].nodeValue = t.name);
+      q('#labelEmail') && (q('#labelEmail').childNodes[0].nodeValue = t.email);
+      q('#labelCategory') && (q('#labelCategory').childNodes[0].nodeValue = t.category);
+      q('#labelSubject') && (q('#labelSubject').childNodes[0].nodeValue = t.subject);
+      q('#labelMessage') && (q('#labelMessage').childNodes[0].nodeValue = t.message);
+      q('#sendBtn') && (q('#sendBtn').textContent = t.sendBtn);
+      q('#contactTitle') && (q('#contactTitle').textContent = t.sendTitle);
+      q('#emailLabel') && (q('#emailLabel').textContent = t.emailLabel);
+
+      // Tip
+      const tips = Array.from(document.querySelectorAll('.muted')).filter(n=>/pre-filled|자동|自動|precompletados|preenchidos|vorausgefüllten|pré-remplis/.test(n.textContent));
+      tips.forEach(el => el.textContent = t.tip);
+      // Placeholders
+      const name = document.querySelector('input[name="name"]');
+      const email = document.querySelector('input[name="email"]');
+      const subject = document.querySelector('input[name="subject"]');
+      const message = document.querySelector('textarea[name="message"]');
+      if(name) name.placeholder = t.ph_name;
+      if(email) email.placeholder = t.ph_email;
+      if(subject) subject.placeholder = t.ph_subject;
+      if(message) message.placeholder = t.ph_message;
+      // Category options
+      const sel = document.querySelector('select[name="category"]');
+      if(sel && sel.options.length >= 3){
+        sel.options[0].textContent = t.cat_general;
+        sel.options[1].textContent = t.cat_bug;
+        sel.options[2].textContent = t.cat_ads;
+      }
+    }
+
+    // Expose globally
+    window.applyI18nContact = applyI18nContact;
+
+    // On load, apply to currently selected tab/lang
+    document.addEventListener('DOMContentLoaded', ()=>{
+      applyI18nContact(getSelectedLang());
+    });
+
+    // Hook into tab clicks to update texts
+    document.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.tab');
+      if(!btn || !btn.closest('.tabs')) return;
+      const lang = btn.dataset.lang;
+      // Defer to allow existing tab code to switch panes
+      setTimeout(()=>applyI18nContact(lang), 0);
+    });
+  })();
+</script>
+
+
+<script>
+(function(){
+  // Extend contact i18n if available
+  const EXT = {
+    ko: {
+      
+      faqTitle: "FAQ",
+      q1: "이모티콘은 어떻게 복사하나요?",
+      a1: "원하는 항목을 클릭하면 자동으로 복사됩니다. 모바일에서는 길게 눌러 복사 메뉴가 열릴 수 있습니다.",
+      q2: "언어는 어떻게 변경하나요?",
+      a2: "우측 상단 설정에서 언어를 선택하거나, 이 페이지 상단의 언어 탭을 눌러 전환하세요.",
+      q3: "광고·제휴 문의가 가능한가요?",
+      a3: "상단의 이메일로 연락 가능합니다. 개별 회신은 제공되지 않을 수 있습니다.",
+      q4: "저작권/출처는 어떻게 되나요?",
+      a4: "이모티콘·카모지·ASCII 아트는 공유 문화가 강하며, 출처가 명확하지 않은 경우가 많습니다. 업로드/제공된 자료의 권리는 각 제공자에게 있습니다."
+    },
+    en: {
+      
+      faqTitle: "FAQ",
+      q1: "How do I copy an emoticon?",
+      a1: "Click the item to copy automatically. On mobile, long-press may open the copy menu.",
+      q2: "How do I change the language?",
+      a2: "Use the settings menu at the top-right or the language tabs on this page.",
+      q3: "Can I contact for ads/business?",
+      a3: "Yes, email us at the address above. Individual replies may not be provided.",
+      q4: "What about copyright/attribution?",
+      a4: "Emoticons/kaomoji/ASCII art are widely shared; sources are often unclear. Rights remain with the original providers."
+    },
+    ja: {
+      
+      faqTitle: "FAQ",
+      q1: "絵文字はどうやってコピーしますか？",
+      a1: "項目をクリックすると自動的にコピーされます。モバイルでは長押しでコピーメニューが表示される場合があります。",
+      q2: "言語の変更方法は？",
+      a2: "右上の設定、またはこのページ上部の言語タブで切り替えられます。",
+      q3: "広告・ビジネスの問い合わせは可能ですか？",
+      a3: "上記メールにてご連絡ください。個別の返信は行わない場合があります。",
+      q4: "著作権/出典はどうなりますか？",
+      a4: "絵文字・顔文字・ASCII アートは共有文化が強く、出典が不明な場合があります。権利は各提供者に帰属します。"
+    },
+    es: {
+      
+      faqTitle: "Preguntas frecuentes",
+      q1: "¿Cómo copio un emoticono?",
+      a1: "Haz clic para copiar automáticamente. En móvil, una pulsación larga puede abrir el menú de copia.",
+      q2: "¿Cómo cambio el idioma?",
+      a2: "Usa la configuración arriba a la derecha o las pestañas de idioma de esta página.",
+      q3: "¿Puedo contactar por anuncios/negocios?",
+      a3: "Sí, escríbenos al correo de arriba. Puede que no se brinden respuestas individuales.",
+      q4: "¿Y los derechos de autor/atribución?",
+      a4: "Los emoticonos/kaomoji/ASCII se comparten ampliamente; las fuentes suelen ser inciertas. Los derechos pertenecen a los proveedores originales."
+    },
+    pt: {
+      
+      faqTitle: "Perguntas frequentes",
+      q1: "Como copio um emoticon?",
+      a1: "Clique no item para copiar automaticamente. No celular, um toque longo pode abrir o menu de cópia.",
+      q2: "Como altero o idioma?",
+      a2: "Use as configurações no canto superior direito ou as abas de idioma nesta página.",
+      q3: "Posso contatar para anúncios/negócios?",
+      a3: "Sim, envie um e-mail para o endereço acima. Respostas individuais podem não ser fornecidas.",
+      q4: "E os direitos autorais/atribuição?",
+      a4: "Emoticons/kaomoji/ASCII são amplamente compartilhados; as fontes muitas vezes não são claras. Os direitos permanecem com os provedores originais."
+    },
+    de: {
+      
+      faqTitle: "Häufige Fragen",
+      q1: "Wie kopiere ich ein Emoticon?",
+      a1: "Klicken Sie auf das Element, um es automatisch zu kopieren. Auf dem Handy öffnet langes Drücken ggf. das Kopiermenü.",
+      q2: "Wie ändere ich die Sprache?",
+      a2: "Über das Einstellungsmenü oben rechts oder die Sprach-Tabs auf dieser Seite.",
+      q3: "Kontakt für Werbung/Business?",
+      a3: "Ja, per E-Mail an die oben genannte Adresse. Individuelle Antworten sind ggf. nicht möglich.",
+      q4: "Wie sieht es mit Urheberrecht/Attribution aus?",
+      a4: "Emoticons/Kaomoji/ASCII werden weit geteilt; Quellen sind oft unklar. Rechte liegen bei den ursprünglichen Anbietern."
+    },
+    fr: {
+      
+      faqTitle: "FAQ",
+      q1: "Comment copier un émoticône ?",
+      a1: "Cliquez sur l’élément pour le copier automatiquement. Sur mobile, un appui long peut ouvrir le menu de copie.",
+      q2: "Comment changer la langue ?",
+      a2: "Utilisez le menu Paramètres en haut à droite ou les onglets de langue de cette page.",
+      q3: "Puis-je contacter pour la publicité / business ?",
+      a3: "Oui, envoyez-nous un e-mail à l’adresse ci-dessus. Des réponses individuelles peuvent ne pas être fournies.",
+      q4: "Qu’en est-il du droit d’auteur / attribution ?",
+      a4: "Les émoticônes/kaomoji/ASCII sont largement partagés ; les sources sont souvent floues. Les droits restent aux fournisseurs d’origine."
+    }
+  };
+
+  function getSelectedLang(){
+    const sel = document.querySelector('.tabs .tab[aria-selected="true"]');
+    return sel ? sel.dataset.lang : 'ko';
+  }
+
+  function applyI18nFAQ(lang){
+    const t = EXT[lang] || EXT.ko;
+    const $ = (id)=>document.getElementById(id);
+    if($('noReplyNote')) $('noReplyNote').textContent = t.noReply;
+    if($('faqTitle')) $('faqTitle').textContent = t.faqTitle;
+    const ids = ['q1','a1','q2','a2','q3','a3','q4','a4','q5','a5'];
+    ids.forEach(id => { if($(id)) $(id).textContent = t[id]; });
+  }
+
+  // Run once on load and whenever the language tab changes
+  document.addEventListener('DOMContentLoaded', ()=>applyI18nFAQ(getSelectedLang()));
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.tab');
+    if(!btn || !btn.closest('.tabs')) return;
+    setTimeout(()=>applyI18nFAQ(btn.dataset.lang), 0);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function setLang(lang){
+    const root = document.querySelector('main');
+    if(!root) return;
+    // Update tab state
+    root.querySelectorAll('.tabs .tab').forEach(btn => {
+      btn.setAttribute('aria-selected', btn.dataset.lang === lang ? 'true' : 'false');
+    });
+    // Toggle panes (div/section with class pane)
+    const panes = root.querySelectorAll('.pane[data-lang]');
+    panes.forEach(p => {
+      const show = p.getAttribute('data-lang') === lang;
+      p.setAttribute('aria-hidden', show ? 'false' : 'true');
+      // Fallback inline style to avoid any CSS conflicts
+      p.style.display = show ? 'block' : 'none';
+    });
+  }
+  function getInitial(){
+    const active = document.querySelector('.tabs .tab[aria-selected="true"]');
+    return active ? active.dataset.lang : 'ko';
+  }
+  // Init
+  document.addEventListener('DOMContentLoaded', ()=>setLang(getInitial()));
+  // Click
+  document.addEventListener('click', (e)=>{
+    const b = e.target.closest('.tab');
+    if(!b || !b.closest('.tabs')) return;
+    setLang(b.dataset.lang);
+  });
+  // Expose for other scripts
+  window.__setLang = setLang;
+})();
+</script>
+
+
+<script>
+// === Minimal patch: keep the 600+ lines intact; just override the two labels ===
+(function(){
+  const LABELS = {
+    ko:{ title:"문의하기",  email:"이메일" },
+    en:{ title:"Contact",   email:"Email" },
+    ja:{ title:"お問い合わせ", email:"メール" },
+    es:{ title:"Contacto",  email:"Correo" },
+    pt:{ title:"Contato",   email:"Email" },
+    de:{ title:"Kontakt",   email:"E-Mail" },
+    fr:{ title:"Contact",   email:"E-mail" }
+  };
+  function selectedLang(){
+    const sel = document.querySelector('.tabs .tab[aria-selected="true"]');
+    return sel ? sel.dataset.lang : 'ko';
+  }
+  function updateLabels(lang){
+    const t = LABELS[lang] || LABELS.ko;
+    const h = document.getElementById('contactTitle'); if(h) h.textContent = t.title;
+    const e = document.getElementById('emailLabel');   if(e) e.textContent = t.email;
+  }
+  document.addEventListener('DOMContentLoaded', ()=> updateLabels(selectedLang()));
+  document.addEventListener('click', (ev)=>{
+    const btn = ev.target.closest('.tab');
+    if(!btn || !btn.closest('.tabs')) return;
+    setTimeout(()=> updateLabels(btn.dataset.lang), 0);
+  });
+})();
+</script>
+</body>
+</html>

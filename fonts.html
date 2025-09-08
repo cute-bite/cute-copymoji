@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stylish Fonts - Cute CopyMoji | Cool Text Fonts for Instagram & Twitter</title>
+<meta name="description" content="Transform your text with stylish fonts on Cute CopyMoji. Copy and paste cool text fonts for Instagram, Twitter, TikTok, and all social platforms.">
+
+  <link rel="stylesheet" href="./index.css" />
+  <style>
+    :root{ --shadow:0 8px 24px rgba(0,0,0,.06); }
+    .body{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+
+    /* 헤더 아래 여백 */
+#app-header {
+  margin-bottom: 10px;  /* 헤더 아래에 20px 여백 */
+}
+
+/* 또는 main 태그에 여백 */
+main.container {
+  margin-top: 14px;  /* main 위에 20px 여백 */
+}
+
+
+    /* 본문 컨테이너 */
+    .container{ max-width:1100px; margin:0 auto; padding:0 16px 80px; min-height:0vh; }
+
+    /* 언어 탭 */
+    .filters{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; margin: 8px 0; }
+    .filters .chip{ margin:0; }
+    .chip{ border:1px solid var(--border); background:var(--card); border-radius:10px; padding:8px 12px; cursor:pointer; }
+    .chip.is-active{ background:var(--chip); border-color: var(--chip); }
+
+  
+
+    /* 입력창 */
+    .fonts-wrap{ display:grid; gap:14px; }
+    .fonts-input{ width:90%; margin:0 auto; }
+    .fonts-input input{
+      width:100%; padding:12px 14px; border:1px solid var(--border);
+      border-radius:14px; background:var(--card); color:var(--text); box-shadow:var(--shadow); outline:none;
+    }
+
+    /* 카드 그리드 */
+    .fonts-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:12px; }
+    .font-card{
+      position:relative; display:grid; grid-template-rows:auto 1fr; gap:8px;
+      min-height:130px; padding:14px; border:1px solid var(--border);
+      border-radius:14px; background:var(--card); box-shadow:var(--shadow); cursor:pointer;
+    }
+    .font-card:hover{ background:var(--chip); }
+    .font-title{ font-size:12px; color:var(--muted); }
+    .font-out{
+      font-size:20px; line-height:1.4; min-height:52px;
+      display:flex; align-items:center; justify-content:flex-start; word-break:break-word;
+      font-kerning:normal; font-variant-ligatures:none; font-synthesis:none;
+    }
+    .shuffle-btn{ position:absolute; top:10px; right:10px; }
+    .icon-btn{
+      border-radius:10px; padding:6px 8px; border:1px solid var(--border);
+      background:var(--card); color:var(--text); cursor:pointer;
+    }
+
+    /* 폰트 폴백 */
+    .math-font{
+      font-family:"Noto Sans Math","STIX Two Math","Cambria Math","STIXGeneral","Symbola","Quivira","DejaVu Sans","Segoe UI Symbol","Apple Symbols",system-ui,ui-sans-serif;
+    }
+    .script-font{
+      font-family:"Noto Sans Math","STIX Two Math","STIXGeneral","Segoe UI Symbol","Symbola","Quivira",system-ui,ui-sans-serif;
+    }
+    .fraktur-font{
+      font-family:"UnifrakturMaguntia","UnifrakturCook","Noto Sans Math","STIX Two Math","STIXGeneral","DejaVu Sans","Segoe UI Symbol","Symbola","Quivira",system-ui;
+    }
+
+    /* Toast */
+    #toast{
+      position:fixed; left:50%; transform:translateX(-50%); bottom:24px;
+      background:var(--card); border:1px solid var(--border); color:var(--text);
+      padding:8px 12px; border-radius:10px; box-shadow:var(--shadow);
+      opacity:0; transition:opacity .2s; z-index:50;
+    }
+    #toast.show{ opacity:1; }
+
+
+    
+
+    
+  </style>
+</head>
+
+<body class="theme-pink">
+  <!--  include -->
+  <div id="app-header"></div>
+  <main class="container">
+    <section class="fonts-wrap" aria-label="Font converter">
+  <!-- 입력 먼저 -->
+  <div class="fonts-input">
+    <input id="fontsInput" placeholder="Type to preview in various fonts (click to copy)" />
+  </div>
+
+  <!-- 그 아래 필터 -->
+  <div class="filters" role="tablist" aria-label="Language">
+    <button id="btnEn" class="chip" role="tab" aria-pressed="true">English</button>
+    <button id="btnJp" class="chip" role="tab" aria-pressed="false">Japanese</button>
+  </div>
+
+
+      <div id="fontsGrid" class="fonts-grid" aria-live="polite"></div>
+
+      
+    </section>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <!-- 동일한 레이아웃 로더 -->
+  <script src="./include-layout.js" defer></script>
+  <script>
+    // 레이아웃 로드 후, 헤더의 버튼들이 준비되면 모달 연결 (emoticon.html과 동일)
+    document.addEventListener('layout:ready', function(){
+      const on = (sel, ev, fn) => { const el = document.querySelector(sel); if (el) el.addEventListener(ev, fn); };
+      on('#menuTheme','click', () => document.getElementById('themeDialog')?.showModal());
+      on('#languageToggle','click', () => document.getElementById('languageDialog')?.showModal());
+    });
+  </script>
+
+  <div id="toast" role="status" aria-live="polite">Copied!</div>
+
+  <script>
+  (function(){
+    const EL = {
+      toast: document.getElementById('toast'),
+      fontsInput: document.getElementById('fontsInput'),
+      fontsGrid: document.getElementById('fontsGrid'),
+      btnEn: document.getElementById('btnEn'),
+      btnJp: document.getElementById('btnJp'),
+    };
+    let LANG = 'en'; // 기본 영어
+
+    /* ===== 유틸 ===== */
+    function showToast(msg){ EL.toast.textContent = msg; EL.toast.classList.add('show'); clearTimeout(showToast._t); showToast._t = setTimeout(()=>EL.toast.classList.remove('show'), 1100); }
+    async function copy(text){
+      try{
+        if(navigator.clipboard && window.isSecureContext){ await navigator.clipboard.writeText(text); }
+        else{ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+        showToast('Copied!');
+      }catch{ showToast('Failed to Copy'); }
+    }
+    function makeCard(title, text, cls, reshuffle){
+      const card = document.createElement('button');
+      card.type='button'; card.className='font-card'; card.title='클릭하여 복사';
+      const t1 = document.createElement('div'); t1.className='font-title'; t1.textContent = title;
+      const t2 = document.createElement('div'); t2.className='font-out'; t2.textContent = text; if(cls) t2.classList.add(cls);
+      if(reshuffle){
+        const sh = document.createElement('button'); sh.type='button'; sh.className='icon-btn shuffle-btn'; sh.title='섞기'; sh.textContent='↻';
+        sh.addEventListener('click', (e)=>{ e.stopPropagation(); t2.textContent = reshuffle(); });
+        card.appendChild(sh);
+      }
+      card.append(t1,t2);
+      card.addEventListener('click', ()=>copy(t2.textContent));
+      return card;
+    }
+
+    /* ===== 기능 감지 (하트/티벳 표식 등) ===== */
+    const FeatureDetect = (() => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.font = '20px "Noto Sans", system-ui, sans-serif';
+      function widthOf(s){ return ctx.measureText(s).width; }
+      function supportsCombining(mark){ return Math.abs(widthOf('a'+mark) - widthOf('a')) > 0.2; }
+      function supportsChar(ch){ const w = widthOf(ch), base = widthOf('a'); return w < base * 2.2; }
+      return {
+        supportsTaiThamHeart: () => supportsChar('\u1A5A') || supportsCombining('\u1A5A'),
+        supportsTibetanMarks:  () => (supportsChar('\u0F80') && supportsChar('\u0F72')) || (supportsCombining('\u0F80') || supportsCombining('\u0F72')),
+        supportsCombSmall:     () => supportsChar('\u0363') && supportsCombining('\u0363'),
+      };
+    })();
+
+    /* ======================
+       ENGLISH (fonts)
+       ====================== */
+    const mapRanges = {
+      buildAlphaDigits: (U, L, D=null) => {
+        const up=[...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'], lo=[...'abcdefghijklmnopqrstuvwxyz'], dg=[...'0123456789']; const m={};
+        up.forEach((ch,i)=> m[ch] = String.fromCodePoint(U+i));
+        lo.forEach((ch,i)=> m[ch] = String.fromCodePoint(L+i));
+        if(D!=null) dg.forEach((ch,i)=> m[ch] = String.fromCodePoint(D+i));
+        return m;
+      },
+      fullWidth: (()=>{ const m={}; for(let i=33;i<=126;i++){ m[String.fromCharCode(i)] = String.fromCharCode(0xFF00 + i - 0x20); } m[' '] = '　'; return m; })(),
+      circled: (()=>{ const m={}; const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ', a='abcdefghijklmnopqrstuvwxyz', d='0123456789';
+        for(let i=0;i<26;i++){ m[A[i]] = String.fromCodePoint(0x24B6+i); m[a[i]] = String.fromCodePoint(0x24D0+i); }
+        for(let i=0;i<10;i++){ m[d[i]] = String.fromCodePoint(0x2460+i); } m['0']='⓪'; return m; })(),
+
+      /* ✅ 소문자도 동일 글리프로 매핑 */
+      squared: (()=>{ const m={}; const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for(let i=0;i<26;i++){ const g=String.fromCodePoint(0x1F130+i); m[A[i]]=g; m[A[i].toLowerCase()]=g; } return m; })(),
+      negativeSquared: (()=>{ const m={}; const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for(let i=0;i<26;i++){ const g=String.fromCodePoint(0x1F170+i); m[A[i]]=g; m[A[i].toLowerCase()]=g; } return m; })(),
+
+      smallCaps: (()=>{ const src='abcdefghijklmnopqrstuvwxyz', dst='ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ', m={};
+        for(let i=0;i<src.length;i++){ m[src[i]]=dst[i]; m[src[i].toUpperCase()]=dst[i]; } return m; })(),
+      fancy: (()=>{ const src='abcdefghijklmnopqrstuvwxyz', dst='αɓςɗєƒɠɦɪʝƙʟɱɳσρϙɾʂƭᴜѵѡхყȥ', m={};
+        for(let i=0;i<src.length;i++){ const a=src[i]; m[a]=dst[i]; m[a.toUpperCase()]=dst[i]; } return m; })(),
+      unique: (()=>{ const pairs={a:'ꪖ',b:'᥇',c:'ς',d:'ɖ',e:'ꫀ',f:'ᠻ',g:'ᧁ',h:'ꫝ',i:'𝓲',j:'𝓳',k:'ꪜ',l:'ꪶ',m:'ꪑ',n:'ꪀ',o:'ꪮ',p:'ρ',q:'ꪇ',r:'𝘳',s:'ˢ',t:'𝓽',u:'ꪊ',v:'ꪙ',w:'᭙',x:'᥊',y:'ꪗ',z:'ƺ'}, m={};
+        for(const [k,v] of Object.entries(pairs)){ m[k]=v; m[k.toUpperCase()]=v; } return m; })(),
+      superscripts: (()=>{ const m={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹',a:'ᵃ',b:'ᵇ',c:'ᶜ',d:'ᵈ',e:'ᵉ',f:'ᶠ',g:'ᵍ',h:'ʰ',i:'ⁱ',j:'ʲ',k:'ᵏ',l:'ˡ',m:'ᵐ',n:'ⁿ',o:'ᵒ',p:'ᵖ',r:'ʳ',s:'ˢ',t:'ᵗ',u:'ᵘ',v:'ᵛ',w:'ʷ',x:'ˣ',y:'ʸ',z:'ᶻ',A:'ᴬ',B:'ᴮ',D:'ᴰ',E:'ᴱ',G:'ᴳ',H:'ᴴ',I:'ᴵ',J:'ᴶ',K:'ᴷ',L:'ᴸ',M:'ᴹ',N:'ᴺ',O:'ᴼ',P:'ᴾ',R:'ᴿ',T:'ᵀ',U:'ᵁ',V:'ⱽ',W:'ᵂ'}; return m; })(),
+      regional: (()=>{ const m={}; const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for(let i=0;i<26;i++){ const g=String.fromCodePoint(0x1F1E6+i); m[A[i]]=g; m[A[i].toLowerCase()]=g; } return m; })(),
+    };
+    const mapByTable = (s,t)=>[...s].map(ch=>t[ch] ?? ch).join('');
+    const combineAbove = (s,marks)=>{ const suf=marks.join(''); return [...s].map(ch=>/\s/.test(ch)?ch:(ch+suf)).join(''); };
+
+    const styles = [
+      {key:'random', name:'random', cls:'', fn:(s)=>randomMixed(s)},
+      {key:'sans',          name:'sans',          cls:'math-font',  fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D5A0,0x1D5BA,0x1D7E2))},
+      {key:'bold',          name:'bold',          cls:'math-font',  fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D400,0x1D41A,0x1D7CE))},
+      {key:'smallCaps',     name:'smallCaps',     cls:'',           fn:(s)=>mapByTable(s, mapRanges.smallCaps)},
+      {key:'fullWidth',     name:'fullWidth',     cls:'',           fn:(s)=>mapByTable(s, mapRanges.fullWidth)},
+      {key:'bubbles',       name:'bubbles',       cls:'',           fn:(s)=>mapByTable(s, mapRanges.circled)},
+      {key:'square',        name:'square',        cls:'',           fn:(s)=>mapByTable(s, mapRanges.squared)},
+      {key:'negative',      name:'negative',      cls:'',           fn:(s)=>mapByTable(s, mapRanges.negativeSquared)},
+      {key:'fancy',         name:'fancy',         cls:'',           fn:(s)=>mapByTable(s, mapRanges.fancy)},
+      {key:'unique',        name:'unique',        cls:'',           fn:(s)=>mapByTable(s, mapRanges.unique)},
+      {key:'smileDots',     name:'smileDots',     cls:'',           fn:(s)=>combineAbove(s, ['\u0306','\u0308'])},
+      {key:'sparkle',       name:'sparkle',       cls:'',           fn:(s)=>combineAbove(s, ['\u0307','\u20F0'])},
+      {key:'ring',          name:'ring',          cls:'',           fn:(s)=>combineAbove(s, ['\u030A'])},
+      {key:'tilde',         name:'tilde',         cls:'',           fn:(s)=>combineAbove(s, ['\u0303'])},
+      {key:'encloseCircle', name:'encloseCircle', cls:'',           fn:(s)=>combineAbove(s, ['\u20DD'])},
+      {key:'heartAbove',    name:'heartAbove',    cls:'',           fn:(s)=>heartAboveSafe(s)},
+      {key:'heartLetter',   name:'heartLetter',   cls:'',           fn:(s)=>heartLetterSafe(s)},
+      {key:'ribbon',        name:'ribbon',        cls:'',           fn:(s)=>ribbonAboveSafe(s)},
+      {key:'italic',        name:'italic',        cls:'math-font',  fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D434,0x1D44E,null))},
+      {key:'boldItalic',    name:'boldItalic',    cls:'math-font',  fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D468,0x1D482,null))},
+      {key:'script',        name:'script',        cls:'script-font',fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D49C,0x1D4B6,null))},
+      {key:'boldScript',    name:'boldScript',    cls:'script-font',fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D4D0,0x1D4EA,null))},
+      {key:'gothic',        name:'gothic',        cls:'fraktur-font',fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D504,0x1D51E,null))},
+      {key:'boldGothic',    name:'boldGothic',    cls:'fraktur-font',fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D56C,0x1D586,null))},
+      {key:'mathItalic',    name:'mathItalic',    cls:'math-font',  fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D434,0x1D44E,null))},
+      {key:'mathBold',      name:'mathBold',      cls:'math-font',  fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D400,0x1D41A,0x1D7CE))},
+      {key:'mathBoldItalic',name:'mathBoldItalic',cls:'math-font',  fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D468,0x1D482,null))},
+      {key:'superscript',   name:'superscript',   cls:'',           fn:(s)=>mapByTable(s, mapRanges.superscripts)},
+      {key:'underline',     name:'underline',     cls:'',           fn:(s)=>[...s].map(ch => ch+'\u0332').join('')},
+      {key:'regional',      name:'regional',      cls:'',           fn:(s)=>mapByTable(s, mapRanges.regional)},
+      {key:'double',        name:'double',        cls:'math-font',  fn:(s)=>mapByTable(s, mapRanges.buildAlphaDigits(0x1D538,0x1D552,null))},
+    ];
+    const fnByKey = {}; styles.forEach(s=>fnByKey[s.key]=s.fn);
+    const RANDOM_SAFE_POOL = ['fullWidth','bubbles','square','negative','smallCaps','fancy','unique','sans','bold','smileDots','sparkle','ring','tilde','encloseCircle','heartAbove','heartLetter','ribbon'];
+    function randomMixed(str){
+      const pool=RANDOM_SAFE_POOL;
+      return [...str].map(ch=>{
+        if(/\s/.test(ch)) return ch;
+        const key = pool[(Math.random()*pool.length)|0];
+        return fnByKey[key](ch);
+      }).join('');
+    }
+    function heartAboveSafe(str){ return (FeatureDetect.supportsTaiThamHeart()? combineAbove(str,['\u1A5A']) : combineAbove(str,['\u0306','\u0307'])); }
+    function heartLetterSafe(str){
+      const ok = FeatureDetect.supportsCombSmall();
+      return [...str].map(ch=>{
+        if(/\s/.test(ch)) return ch;
+        const m = {a:'\u0363',e:'\u0364',i:'\u0365',o:'\u0366',u:'\u0367',c:'\u0368',d:'\u0369',h:'\u036A',m:'\u036B',r:'\u036C',t:'\u036D',v:'\u036E',x:'\u036F',
+                   A:'\u0363',E:'\u0364',I:'\u0365',O:'\u0366',U:'\u0367',C:'\u0368',D:'\u0369',H:'\u036A',M:'\u036B',R:'\u036C',T:'\u036D',V:'\u036E',X:'\u036F'}[ch] || '\u0307';
+        return '♡'+m;
+      }).join('');
+    }
+    function ribbonAboveSafe(str){ return (FeatureDetect.supportsTibetanMarks()? combineAbove(str,['\u0F80','\u0F72']) : combineAbove(str,['\u0303','\u0307'])); }
+
+    function renderEN(){
+      const txt = EL.fontsInput.value ?? '';
+      EL.fontsGrid.innerHTML='';
+      const frag = document.createDocumentFragment();
+      for(const st of styles){
+        const base = txt.trim() ? txt : st.name;  // 입력 없으면 폰트명 미리보기
+        const out  = st.fn(base);
+        const resh = (st.key==='random') ? ()=>randomMixed(base) : null;
+        frag.appendChild(makeCard(st.name, out, st.cls, resh));
+      }
+      EL.fontsGrid.appendChild(frag);
+    }
+
+    /* ======================
+       JAPANESE (ひらがな 매핑)
+       ====================== */
+    const kanaMap = {
+      'あ':['क॑'],'い':['ഗ','ɭ','ɿ'],'う':['ɔ','੭ੇ','כֿ'],'え':['ʑ','ɀ'],'お':[],
+      'か':['תʅ'],'き':['₹'],'く':['ㄑ'],'け':['ιϯ'],'こ':['ˉ'],
+      'さ':['र','ट','ਟ','ㄜ','ਟੋ'],'し':['ს','ᒐ','㇟'],'す':['व','ਕ','ਭ','ತ'],'せ':['ㄝ','ए'],'そ':['౾','ਵ','ƺ','દૅ'],
+      'た':['ƒ'],'ち':['ㄘ','ƾ','ƽ','ᖬ'],'つ':['ᑐ','ᘄ'],'て':['ح','ᘔ','Ꞇ'],'で':['ڃ'],'と':['೬','ᘧ'],
+      'な':['ˉ','Ժˋ','ד֝','ժ՝'],'に':['ឌេ','ɭ','ˉ','ɭ'],'ぬ':[],'ね':['൹'],'の':['၈'],
+      'は':['বে','ਰਿ','լਕ'],'ひ':['ʊ','Ʊ','ᘮ'],'ふ':['ζ','৴ડેヽ'],'へ':['ㄟ'],'ほ':['इि','ફિ','ਰਿੈ','ਝਿ','ਙਿ'],
+      'ま':[],'み':['ਗ','ਮ','મ','೫'],'む':['ఏౌ'],'め':[],'も':['₺','Ⱡ','ŧ','ᵵ'],
+      'や':['兯'],'ゆ':[],'よ':[],'ら':['ᣡ','ʖˋ'],'り':['ױ','ιյ','ﾚ)','၊','၂'],
+      'る':['ਡ','ᵹ','ਛ','इ','ʓ'],'れ':['փ','ૠ'],'ろ':['Ʒ','ਤ','ჳ','ㄋ'],
+      'わ':[],'を':['ξ'],'ん':['ƕ','Խ','Ⴡ','ᖾ','ꩢ','խ','๘']
+    };
+    function mapKanaChar(ch, mode){
+      const arr = kanaMap[ch];
+      if(!arr || arr.length===0) return ch;
+      if(mode==='first') return arr[0];
+      return arr[(Math.random()*arr.length)|0];
+    }
+    function convertKana(str, mode='random'){ return [...str].map(ch=>mapKanaChar(ch, mode)).join(''); }
+
+    /* ===== JP helpers: hira→kata, circled katakana, halfwidth katakana, decorators ===== */
+
+// ひらがな → カタカナ
+function hiraToKata(str){
+  return str.replace(/[\u3041-\u3096]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0x60));
+}
+
+// 원형 오버레이(폰트/OS에 따라 겹침 품질 다름)
+function jpEncloseCircleOverlay(str){ return combineAbove(str, ['\u20DD']); }
+
+// ㋐(U+32D0)~㋾(U+32FE) 원형 카타카나 매핑 (대응되는 글자만)
+const CIRCLED_KATA = (() => {
+  const A = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰヱヲ';
+  const CP_START = 0x32D0; // ㋐
+  const m = {};
+  for(let i=0;i<A.length;i++){ m[A[i]] = String.fromCodePoint(CP_START + i); }
+  return m;
+})();
+
+function toCircledKatakana(input){
+  const kata = hiraToKata(input);
+  let out = '';
+  for (const ch of kata){
+    if (KATA_VOICED_BASE[ch]){               // 탁음: 기본자 써클 + 3099
+      const base = KATA_VOICED_BASE[ch];
+      const circ = CIRCLED_KATA[base] ?? base;
+      out += circ + DAKUTEN;
+      continue;
+    }
+    if (KATA_SEMI_BASE[ch]){                 // 반탁음: 기본자 써클 + 309A
+      const base = KATA_SEMI_BASE[ch];
+      const circ = CIRCLED_KATA[base] ?? base;
+      out += circ + HANDAKUTEN;
+      continue;
+    }
+    // 일반 음절: 있으면 써클, 없으면 폴백(예: 'ン'은 오버레이)
+    out += CIRCLED_KATA[ch] ?? (ch === 'ン' ? ch + '\u20DD' : ch);
+  }
+ return out;
+}
+
+
+// 탁음(゛)/반탁음(゜)의 '기본자' 매핑
+const KATA_VOICED_BASE = { // dakuten
+  'ガ':'カ','ギ':'キ','グ':'ク','ゲ':'ケ','ゴ':'コ',
+  'ザ':'サ','ジ':'シ','ズ':'ス','ゼ':'セ','ゾ':'ソ',
+  'ダ':'タ','ヂ':'チ','ヅ':'ツ','デ':'テ','ド':'ト',
+  'バ':'ハ','ビ':'ヒ','ブ':'フ','ベ':'ヘ','ボ':'ホ',
+  'ヴ':'ウ'
+};
+const KATA_SEMI_BASE = {   // handakuten
+  'パ':'ハ','ピ':'ヒ','プ':'フ','ペ':'ヘ','ポ':'ホ'
+};
+
+// 반드시 '결합형' 코드포인트 사용(겹쳐서 찍힘)
+const DAKUTEN    = '\u3099'; // COMBINING VOICED SOUND MARK
+const HANDAKUTEN = '\u309A'; // COMBINING SEMI-VOICED SOUND MARK
+
+
+// 반각 카타카나
+const KATA_HALF_BASE = {
+  'ア':'ｱ','イ':'ｲ','ウ':'ｳ','エ':'ｴ','オ':'ｵ','カ':'ｶ','キ':'ｷ','ク':'ｸ','ケ':'ｹ','コ':'ｺ',
+  'サ':'ｻ','シ':'ｼ','ス':'ｽ','セ':'ｾ','ソ':'ｿ','タ':'ﾀ','チ':'ﾁ','ツ':'ﾂ','テ':'ﾃ','ト':'ﾄ',
+  'ナ':'ﾅ','ニ':'ﾆ','ヌ':'ﾇ','ネ':'ﾈ','ノ':'ﾉ','ハ':'ﾊ','ヒ':'ﾋ','フ':'ﾌ','ヘ':'ﾍ','ホ':'ﾎ',
+  'マ':'ﾏ','ミ':'ﾐ','ム':'ﾑ','メ':'ﾒ','モ':'ﾓ','ヤ':'ﾔ','ユ':'ﾕ','ヨ':'ﾖ','ラ':'ﾗ','リ':'ﾘ',
+  'ル':'ﾙ','レ':'ﾚ','ロ':'ﾛ','ワ':'ﾜ','ヲ':'ｦ','ン':'ﾝ',
+  'ァ':'ｧ','ィ':'ｨ','ゥ':'ｩ','ェ':'ｪ','ォ':'ｫ','ャ':'ｬ','ュ':'ｭ','ョ':'ｮ','ッ':'ｯ',
+  'ー':'ｰ','・':'･','。':'｡','、':'､','「':'｢','」':'｣','゛':'ﾞ','゜':'ﾟ'
+};
+const KATA_HALF_VOICED = {
+  'ガ':'ｶﾞ','ギ':'ｷﾞ','グ':'ｸﾞ','ゲ':'ｹﾞ','ゴ':'ｺﾞ',
+  'ザ':'ｻﾞ','ジ':'ｼﾞ','ズ':'ｽﾞ','ゼ':'ｾﾞ','ゾ':'ｿﾞ',
+  'ダ':'ﾀﾞ','ヂ':'ﾁﾞ','ヅ':'ﾂﾞ','デ':'ﾃﾞ','ド':'ﾄﾞ',
+  'バ':'ﾊﾞ','ビ':'ﾋﾞ','ブ':'ﾌﾞ','ベ':'ﾍﾞ','ボ':'ﾎﾞ','ヴ':'ｳﾞ'
+};
+const KATA_HALF_SEMI = { 'パ':'ﾊﾟ','ピ':'ﾋﾟ','プ':'ﾌﾟ','ペ':'ﾍﾟ','ポ':'ﾎﾟ' };
+function toHalfwidthKatakana(input){
+  const kata = hiraToKata(input);
+  let out = '';
+  for(const ch of kata){
+    if(KATA_HALF_VOICED[ch]) out += KATA_HALF_VOICED[ch];
+    else if(KATA_HALF_SEMI[ch]) out += KATA_HALF_SEMI[ch];
+    else out += KATA_HALF_BASE[ch] ?? ch;
+  }
+  return out;
+}
+
+// JP 결합 데코 (영문 데코 그대로 재사용)
+const jpDecor = {
+  underline:   (s)=>[...s].map(ch=>ch+'\u0332').join(''),
+  sparkle:     (s)=>combineAbove(s, ['\u0307','\u20F0']),
+  ring:        (s)=>combineAbove(s, ['\u030A']),
+  tilde:       (s)=>combineAbove(s, ['\u0303']),
+  heartAbove:  (s)=>heartAboveSafe(s),
+  heartLetter: (s)=>heartLetterSafe(s),
+  ribbon:      (s)=>ribbonAboveSafe(s)
+};
+
+// 랜덤 데코
+const JP_RANDOM_POOL = ['underline','sparkle','ring','tilde','heartAbove','ribbon'];
+function jpRandomDecor(str){
+  return [...str].map(ch=>{
+    if(/\s/.test(ch)) return ch;
+    const key = JP_RANDOM_POOL[(Math.random()*JP_RANDOM_POOL.length)|0];
+    return jpDecor[key](ch);
+  }).join('');
+}
+
+
+function renderJP(){
+  const base = (EL.fontsInput.value || 'ろん').trim();
+
+  // 히라가나 예시(중요!): Symbol/랜덤 매핑이 실제로 돌아가게 함
+  const getBaseRandom   = () => (EL.fontsInput.value || 'らんだむ').trim();  // Random
+  const getBaseSymbol   = () => (EL.fontsInput.value || 'しんぼる').trim();  // Symbol Font
+  const getBaseCircled  = () => (EL.fontsInput.value || 'かたかな').trim();  // circledKatakana
+  const getBaseHalf     = () => (EL.fontsInput.value || 'かたかな').trim();  // halfwidthKatakana
+
+  EL.fontsGrid.innerHTML = '';
+  const frag = document.createDocumentFragment();
+
+  // (원래 있던 헬퍼 유지)
+  const symbolRandomChar = (ch) => convertKana(ch, 'random');
+  const bubblesChar      = (ch) => jpEncloseCircleOverlay(ch);
+  const circledChar      = (ch) => toCircledKatakana(ch);
+  const halfwidthChar    = (ch) => toHalfwidthKatakana(ch);
+
+  function randomPicker(s){
+    const fns = [symbolRandomChar, bubblesChar, circledChar, halfwidthChar];
+    return [...s].map(ch => /\s/.test(ch) ? ch : fns[(Math.random()*fns.length)|0](ch)).join('');
+  }
+
+  // Random: 매번 새로 섞임
+  const mkRandom = () => randomPicker(getBaseRandom());
+  frag.appendChild( makeCard('Random', mkRandom(), '', mkRandom) );
+
+  // Symbol Font: 글자별 랜덤 매핑을 매번 적용
+  const mkSymbol = () => convertKana(getBaseSymbol(), 'random');
+  frag.appendChild( makeCard('Symbol Font', mkSymbol(), '', mkSymbol) );
+
+  // circled / halfwidth: 히라가나 입력 -> 내부에서 가타카나/반각으로 변환됨
+  const rows = [
+    { name: 'circledKatakana',   out: toCircledKatakana(getBaseCircled()) },
+    { name: 'halfwidthKatakana', out: toHalfwidthKatakana(getBaseHalf()) },
+  ];
+  for (const r of rows) frag.appendChild( makeCard(r.name, r.out, '', r.reshuffle) );
+
+  EL.fontsGrid.appendChild(frag);
+}
+
+
+
+
+
+
+    /* ===== 바인딩 ===== */
+    function setLang(next){
+      LANG = next;
+      EL.btnEn.setAttribute('aria-pressed', String(next==='en'));
+      EL.btnJp.setAttribute('aria-pressed', String(next==='jp'));
+    if(next==='en'){
+    EL.fontsInput.placeholder = 'Type to preview in various fonts (click to copy)';
+    renderEN();
+    }else{
+    EL.fontsInput.placeholder = 'Enter text in Hiragana to preview in various fonts (click to copy)';
+    renderJP();
+    }
+
+      EL.fontsInput.focus();
+    }
+    EL.btnEn.addEventListener('click', ()=> setLang('en'));
+    EL.btnJp.addEventListener('click', ()=> setLang('jp'));
+    EL.fontsInput.addEventListener('input', ()=> (LANG==='en'? renderEN() : renderJP()));
+
+    /* ===== 초기화 ===== */
+    setLang('en'); // 기본 영어
+  })();
+
+  
+
+  
+  </script>
+</body>
+</html>

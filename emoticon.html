@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emoticon Collection - Cute CopyMoji | Copy & Paste Japanese & Korean Kaomoji</title>
+<meta name="description" content="Find the best Japanese and Korean emoticons (kaomoji) on Cute CopyMoji. Copy and paste adorable emoticons for social media, messages, and more in one click.">
+
+  <link rel="stylesheet" href="./index.css" />
+
+  <style>
+  /* 필터바: 1줄 고정 + gap만 사용해 간격 유지 */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;   /* ← 가운데 정렬 */
+    gap: 8px;            /* ← 간격은 gap만 사용 */
+  }
+  .filters .chip { margin: 0; }  /* margin 제거: 간격은 gap으로 통일 */
+  .filters.is-collapsed {
+    max-height: 40px;    /* chip 높이에 맞춰 조정 */
+    overflow: hidden;
+    position: relative;
+  }
+  .filters.is-collapsed::after { /* 오른쪽 페이드(선택) */
+    content: "";
+    position: absolute; right: 0; top: 0; bottom: 0; width: 48px;
+    background: linear-gradient(to right, transparent, #fff);
+    pointer-events: none;
+  }
+
+  /* 모달 */
+  .filter-modal {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.35);
+    display: none;
+  }
+  .filter-modal.is-open { display: block; }
+  .filter-modal .box {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(900px, 92vw); max-height: 80vh; overflow: auto;
+    background: #fff; border-radius: 12px; padding: 16px 16px 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .filter-modal .header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 12px;
+  }
+  .filter-modal .title { font-weight: 700; font-size: 16px; }
+  .filter-modal .close {
+    border: 1px solid #ddd; background: #fff; border-radius: 10px;
+    padding: 6px 10px; cursor: pointer;
+  }
+  .filter-modal .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+  .filter-modal .chip { width: 100%; text-align: center; }
+
+/* === Mobile: Emoticon 카드 3열 컴팩트 === */
+@media (max-width: 640px){
+  /* 그리드: 3칸 고정 + 간격 축소 */
+  #grid{
+    grid-template-columns: repeat(3, 1fr) !important; /* 3열 강제 */
+    gap: 8px !important;                               /* 기본 12px → 8px */
+  }
+
+  /* 카드 크기/패딩 컴팩트화 (폭 자동으로 칼럼 폭에 맞춤) */
+  .emo-card{
+    width: auto !important;        /* 기존 width:140px 무시 */
+    height: 100px;                 /* 120px → 100px */
+    padding: 6px 8px 8px 8px;      /* 패딩 살짝 축소 */
+  }
+
+  /* 이모티콘 텍스트도 살짝 줄여 3열에서 보기 좋게 */
+  .emo-t{
+    font-size: 11px;               /* 12px → 11px */
+    margin-top: 6px;               /* 별 버튼과 간격 소폭 축소 */
+  }
+
+  /* 즐겨찾기 버튼도 살짝 컴팩트 */
+  .fav-btn{
+    padding: 1px 5px;
+    font-size: 11px;
+  }
+}
+
+/* 초소형 기기(≤360px)에선 다시 2열로 안전하게 */
+@media (max-width: 360px){
+  #grid{ grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+
+
+  
+</style>
+
+</head>
+<body class="theme-pink">
+  <div id="app-header"></div>
+
+  <main class="container" style="min-height:60vh">
+  <!-- EMOTICON
+    <section id="view-emoticon">
+      <div class="toolbar"><div class="search">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        <input id="q" type="search" placeholder="Search | e.g. love, happy" aria-label="Search emoticons" />
+      </div></div>
+      
+
+      <div class="content">
+        <div class="filters" role="tablist" aria-label="filters">
+          <span class="hint" style="align-self:center"></span>
+          <button class="chip is-active" data-filter="all">All</button>
+          <button class="chip" data-filter="kaomoji">Kaomoji</button>
+          <button class="chip" data-filter="love">Love</button>
+          <button class="chip" data-filter="happy">Happy</button>
+          <button class="chip" data-filter="sad">Sad</button>
+          <button class="chip" data-filter="angry">Angry</button>
+          <button class="chip" data-filter="animals">Animals</button>
+          <button class="chip" data-filter="gestures">Gestures</button>
+          <button class="chip" data-filter="symbols">Symbols</button>
+        </div> -->
+        <section id="grid" class="grid" aria-live="polite"></section>
+        <div id="empty" class="empty">No results.</div>
+
+        
+      </div>
+    </section>
+
+    
+  </main>
+
+
+
+  <!-- Toast message -->
+<div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
+
+<!-- 이 줄은 선택: 별도 파일로 관리한다면 <script src="./emoticon-data.js" defer></script> 를 추가하세요. -->
+
+
+<script>
+/* ===== Emoticon page: render + favorites + search/filters ===== */
+const CUSTOM_KEY = 'emo.custom.v1';
+const FAV_KEY    = 'emo.favs.v1';
+
+/* 기본 데이터가 별도 파일(emoticon-data.js)로 없으면, 최소 샘플만 inline */
+
+
+
+/* 1) 데이터 로드/합치기 */
+function loadCustom(){ try{ return JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]'); }catch{ return []; } }
+function allItems(){
+  const seen = new Set(), out = [];
+  for (const it of [...(window.DEFAULT_ITEMS||[]), ...loadCustom()]) {
+    if (!it || !it.t || seen.has(it.t)) continue;
+    seen.add(it.t); out.push(it);
+  }
+  return out;
+}
+
+/* 2) 즐겨찾기 */
+function loadFavs(){ try{ return JSON.parse(localStorage.getItem(FAV_KEY)||'[]'); }catch{ return []; } }
+function saveFavs(v){ localStorage.setItem(FAV_KEY, JSON.stringify(v)); }
+function isFav(t){ return loadFavs().includes(t); }
+function toggleFav(t){
+  const f = loadFavs(); const i = f.indexOf(t);
+  if (i>=0) f.splice(i,1); else f.push(t);
+  saveFavs(f);
+}
+
+/* 3) 렌더링 */
+const $grid  = document.getElementById('grid');
+const $empty = document.getElementById('empty');
+const $q     = document.getElementById('q');
+let FILTER = 'all';
+
+function matchesFilter(it){
+  if (FILTER === 'all') return true;
+  if (FILTER === 'favorites') return isFav(it.t);
+  const tags = (it.g || []).map(s => String(s).toLowerCase());
+  return tags.includes(FILTER);
+}
+
+function matchesQuery(it, q){
+  if(!q) return true;
+  q = q.toLowerCase();
+  return (it.t||'').toLowerCase().includes(q)
+      || (it.l||'').toLowerCase().includes(q)
+      || ((it.g||[]).join(' ').toLowerCase().includes(q));
+}
+function render(){
+  const query = ($q?.value||'').trim();
+  const items = allItems().filter(it => matchesFilter(it) && matchesQuery(it, query));
+
+  $grid.innerHTML = '';
+  if (!items.length){ $empty.style.display='block'; return; }
+  $empty.style.display='none';
+
+for (const it of items){
+  // ① 카드 생성
+  const favInit = isFav(it.t);                 // 초기 즐겨찾기 상태
+  const card = document.createElement('button');
+  card.type='button';
+  // ✅ 초기 상태에서 배경 반영: 즐겨찾기면 is-fav 클래스 부여
+  card.className='emo-card' + (favInit ? ' is-fav' : '');
+
+  card.innerHTML = `
+    <div class="emo-t">${escapeHtml(it.t)}</div>
+    <div class="emo-meta">
+      <button class="fav-btn" type="button" aria-label="favorite" title="favorite">${favInit ? '★' : '☆'}</button>
+    </div>
+  `;
+
+  // ② 이모티콘 클릭 → 복사
+  card.querySelector('.emo-t').addEventListener('click', async (e)=>{
+    e.stopPropagation();
+    await copyText(it.t); toast('Copied!');
+  });
+
+  // ③ 즐겨찾기 버튼 클릭 → 상태 토글
+const favBtn = card.querySelector('.fav-btn');
+if (favInit) favBtn.classList.add('is-active'); // 초기 상태 반영
+favBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleFav(it.t);
+
+  const nowFav = isFav(it.t);
+  favBtn.textContent = nowFav ? '★' : '☆';
+  favBtn.classList.toggle('is-active', nowFav); // 버튼에만 상태 토글
+});
+
+
+  // ④ DOM에 추가
+  $grid.appendChild(card);
+}
+
+}
+
+/* 4) 바인딩 */
+document.querySelector('.filters')?.addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-filter]'); if(!btn) return;
+  document.querySelectorAll('.filters .chip').forEach(b=>b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  FILTER = (btn.dataset.filter || 'all').toLowerCase();
+  render();
+});
+$q?.addEventListener('input', render);
+
+/* 5) 초기가동 */
+document.addEventListener('emodata:ready', render);
+
+
+/* 6) 유틸 & 스타일 */
+function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+async function copyText(s){
+  try{ await navigator.clipboard.writeText(s); }
+  catch{ const ta=document.createElement('textarea'); ta.value=s; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+}
+function toast(msg){
+  let t=document.getElementById('toast');
+  if(!t){ t=document.createElement('div'); t.id='toast'; t.className='toast'; document.body.appendChild(t); }
+  t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t);
+  toast._t=setTimeout(()=>t.classList.remove('show'), 900);
+}
+
+// 최소 스타일(필요 시 CSS로 이동)
+const style=document.createElement('style');
+style.textContent = `
+
+/* 그리드: 6열 예시(원하는 값으로 유지) */
+#grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* ← 88px → 140px */
+  gap: 12px;
+  justify-content: center;
+  align-items: start;
+  margin-top: 20px;
+}
+
+
+
+/* 카드 기본: 배경 화이트, 즐겨찾기 전용 상태에 따라 배경 토글 */
+.emo-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  width:140px;
+  height:120px;
+  padding:8px 10px 10px 10px;  /* 위쪽은 별 버튼 공간 고려 */
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#fff;            /* ② 즐겨찾기 전: 흰색 */
+  transition:background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  cursor:pointer;             /* ③ 카드 전체에서 손가락 모양 유지 */
+  box-sizing: border-box; /* ✅ padding, border까지 칼럼폭에 포함 */
+}
+  
+.fav-btn.is-active {
+  background: var(--chip);   /* 즐겨찾기 된 경우 테마 색상 */
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* ① 즐겨찾기 버튼 우측 상단 고정 */
+.emo-meta{
+  position:absolute;
+  top:6px; right:6px;
+  display:block;
+  padding:0; margin:0;
+  background:transparent;
+  border:0;
+}
+.emo-l{ display:none; }       /* 라벨 숨김 */
+.fav-btn{
+  position:static;
+  padding:2px 6px;
+  font-size:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:8px;
+  cursor:pointer;             /* ③ 버튼 위에서도 손가락 유지 */
+}
+
+/* ④ 이모티콘 중앙 정렬 및 폰트 크기 조절 */
+.emo-t{
+  flex:1;                     /* 남는 높이를 차지해 중앙 정렬에 도움 */
+  display:flex;
+  align-items:center;         /* 수직 가운데 */
+  justify-content:center;     /* 수평 가운데 */
+  text-align:center;
+  font-size:12px;
+  line-height:1.2;
+  word-break:break-word;
+  white-space:normal;
+  margin-top:8px;             /* 별과의 간격 */
+}
+
+
+
+  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:var(--card);border:1px solid var(--border);
+    padding:8px 12px;border-radius:10px;box-shadow:var(--shadow);opacity:0;transition:opacity .2s}
+  #toast.show{opacity:1}
+
+  /* 카드 hover 시 배경색 테마색으로 변경 */
+.emo-card:hover {
+  background: var(--chip);    /* 테마 색상으로 */
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+}
+
+`;
+
+
+document.head.appendChild(style);
+</script>
+
+
+
+
+  <div id="app-footer"></div>
+
+  <script src="./include-layout.js" defer></script>
+  <script>
+    // 기존 index.html에 있던 바인딩을 'layout:ready' 이후로 실행
+    document.addEventListener('layout:ready', function(){
+      const on = (sel, ev, fn) => { const el = document.querySelector(sel); if (el) el.addEventListener(ev, fn); };
+
+      on('#menuTheme','click', () => {
+        const d = document.getElementById('themeDialog'); if (d) d.showModal();
+      });
+      on('#languageToggle','click', () => {
+        const d = document.getElementById('languageDialog'); if (d) d.showModal();
+      });
+    });
+    
+  </script>
+  
+<!-- ① 외부 데이터 파일 로드 -->
+<script src="./emoticon-data.js" defer></script>
+
+<!-- ② 외부 파일이 const DEFAULT_ITEMS로 정의돼도 인식 + 렌더 트리거 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    // 외부 파일이 window.DEFAULT_ITEMS로 넣었으면 그대로 사용,
+    // 'const DEFAULT_ITEMS = [...]' 로만 정의돼 있다면 window에 연결
+    if (!window.DEFAULT_ITEMS && typeof DEFAULT_ITEMS !== 'undefined') {
+      window.DEFAULT_ITEMS = DEFAULT_ITEMS;
+    }
+    // 데이터 준비 완료 → 렌더 호출
+    document.dispatchEvent(new Event('emodata:ready'));
+  });
+</script>
+
+
+<script>
+// 데이터 준비(emoticon-data.js 로드 후) 시점에 태그 → 버튼 자동 생성
+document.addEventListener('emodata:ready', function () {
+  const filtersEl = document.querySelector('.filters');
+  if (!filtersEl) return;
+
+  // 기존 버튼들 수집 (All, love, happy 등 이미 있는 건 건너뜀)
+  const have = new Set(
+    [...filtersEl.querySelectorAll('[data-filter]')]
+      .map(b => (b.dataset.filter || '').toLowerCase())
+  );
+
+  // 데이터에서 유니크 태그 추출
+  const tags = new Set();
+  (window.DEFAULT_ITEMS || []).forEach(it => {
+    (it.g || []).forEach(tag => tags.add(String(tag).toLowerCase()));
+  });
+
+  // 필요 시 제외할 태그 (원하면 추가)
+  const EXCLUDE = []; // 예: ['faces','symbols']
+
+  // 태그 버튼 자동 생성
+  const frag = document.createDocumentFragment();
+  [...tags]
+    .filter(t => t !== 'all' && !have.has(t) && !EXCLUDE.includes(t))
+    .sort((a,b)=>a.localeCompare(b))
+    .forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.dataset.filter = t;
+      btn.textContent = t.charAt(0).toUpperCase() + t.slice(1);
+      frag.appendChild(btn);
+    });
+  filtersEl.appendChild(frag);
+});
+</script>
+
+<!-- 전체 필터 모달 -->
+<div id="filterModal" class="filter-modal" aria-hidden="true">
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="filterModalTitle">
+    <div class="header">
+      <div id="filterModalTitle" class="title">All Filters</div>
+      <button class="close" type="button" data-action="closeFilterModal">Close</button>
+    </div>
+    <div class="grid" id="filterModalGrid"><!-- 동적 주입 --></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const filtersEl = document.querySelector('.filters');
+  const modalEl   = document.getElementById('filterModal');
+  const modalGrid = document.getElementById('filterModalGrid');
+  if (!filtersEl || !modalEl || !modalGrid) return;
+
+  /* 0) 필터바 1줄 접기(간격 유지) */
+  filtersEl.classList.add('is-collapsed');
+
+  /* 1) 컨트롤 버튼 설정: Random 제거, All Tags → Show All Filters */
+  // 기존 Random 버튼이 있으면 제거
+  const randomBtn = filtersEl.querySelector('[data-filter="__random__"]');
+  if (randomBtn) randomBtn.remove();
+
+  // Show All Filters 버튼 보장/라벨 교체
+// Show All Filters 버튼 보장/라벨 교체
+const firstBtn = filtersEl.querySelector('[data-filter="all"]');
+let allTagsBtn = filtersEl.querySelector('[data-filter="__alltags__"]');
+if (!allTagsBtn) {
+  allTagsBtn = document.createElement('button');
+  allTagsBtn.className = 'chip';
+  allTagsBtn.dataset.filter = '__alltags__';
+  allTagsBtn.textContent = 'Show All Filters';
+  firstBtn?.insertAdjacentElement('beforebegin', allTagsBtn); // ← All 앞에 배치
+} else {
+  allTagsBtn.textContent = 'Show All Filters';
+}
+
+
+  /* 2) 태그 버튼 수집(컨트롤/All 제외) */
+  function tagButtons() {
+    return [...filtersEl.querySelectorAll('.chip')].filter(b => {
+      const df = (b.dataset.filter||'').toLowerCase();
+      return df && df !== 'all' && df !== '__alltags__';
+    });
+  }
+
+  // ★ 처음 10개만 보여주기
+document.addEventListener('emodata:ready', () => {
+  const buttons = tagButtons();
+  buttons.forEach((btn, i) => {
+    btn.style.display = i < 10 ? '' : 'none';
+  });
+});
+
+
+
+  /* 3) 모달 열기/닫기 */
+  function openModal() {
+    // 전체 태그 버튼 복제해 모달 그리드에 주입
+    modalGrid.innerHTML = '';
+    tagButtons().forEach(src => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.type = 'button';
+      btn.dataset.filter = src.dataset.filter;
+      btn.textContent = src.textContent;
+      modalGrid.appendChild(btn);
+    });
+    modalEl.classList.add('is-open');
+    modalEl.setAttribute('aria-hidden','false');
+  }
+  function closeModal() {
+    modalEl.classList.remove('is-open');
+    modalEl.setAttribute('aria-hidden','true');
+  }
+
+  /* 4) 이벤트: Show All Filters 클릭 → 모달 */
+  filtersEl.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    const df = (btn.dataset.filter||'').toLowerCase();
+    if (df === '__alltags__') {
+      openModal();
+      // 아이템 필터링에는 관여하지 않음
+      return;
+    }
+  });
+
+  /* 5) 모달 내부 클릭: 태그 선택 → 실제 버튼 클릭 트리거 후 닫기
+        바깥(오버레이) 클릭 or Close 버튼 → 닫기 */
+  modalEl.addEventListener('click', (e)=>{
+    if (e.target.matches('[data-action="closeFilterModal"]') || e.target === modalEl) {
+      closeModal();
+      return;
+    }
+    const tagBtn = e.target.closest('.chip');
+    if (tagBtn) {
+      const df = tagBtn.dataset.filter;
+      // 필터바의 해당 버튼 클릭 트리거
+      const real = filtersEl.querySelector(`.chip[data-filter="${CSS.escape(df)}"]`);
+      if (real) real.click();
+      closeModal();
+    }
+  });
+
+  /* 6) (선택) 윈도우 리사이즈 시에도 간격 유지
+        gap 기반이므로 별도 처리 불필요. is-collapsed가 1줄 고정해줌. */
+})();
+</script>
+
+
+
+
+</body>
+</html>

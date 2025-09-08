@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Username Generator - Cute CopyMoji | Cute & Cool Name Ideas</title>
+<meta name="description" content="Generate cute and cool usernames for Instagram, Twitter, TikTok, and other social platforms with Cute CopyMoji's free username generator.">
+
+  <link rel="stylesheet" href="./index.css" />
+  <style>
+    .toolbar{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:12px; }
+    .toolbar .search{ display:flex; align-items:center; gap:8px; border:1px solid var(--border); background:var(--card); padding:8px 10px; border-radius:10px; width:min(720px, 92vw); }
+    .toolbar .search input{ flex:1; border:0; outline:none; background:transparent; font-size:14px; }
+    .toolbar .actions{ display:flex; gap:8px; }
+    .toolbar .btn{ border:1px solid var(--border); background:var(--card); border-radius:10px; padding:8px 12px; cursor:pointer; }
+    .toolbar .btn:hover{ background:var(--chip); }
+
+    .filters{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; margin: 8px 0; }
+    .filters .chip{ margin:0; }
+    .chip{ border:1px solid var(--border); background:var(--card); border-radius:10px; padding:8px 12px; cursor:pointer; }
+    .chip.is-active{ background:var(--chip); border-color: var(--chip);  }
+
+    #grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; justify-content:center; align-items:start; margin-top:16px; }
+    .id-card{ position:relative; display:flex; align-items:center; justify-content:center; text-align:center; width:100%; min-height:72px; padding:12px; border:1px solid var(--border); border-radius:10px; background:#fff; transition:background .2s, box-shadow .2s, border-color .2s; cursor:pointer; }
+    .id-card:hover{ background:var(--chip); border-color:var(--border); box-shadow:var(--shadow); }
+    .id-text{ font-size:14px; line-height:1.2; word-break:break-word; }
+
+    .empty{ display:none; text-align:center; color:#777; margin-top:16px; }
+    #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:var(--card);border:1px solid var(--border);
+      padding:8px 12px;border-radius:10px;box-shadow:var(--shadow);opacity:0;transition:opacity .2s}
+    #toast.show{opacity:1}
+  </style>
+</head>
+<body class="theme-pink">
+  <div id="app-header"></div>
+
+  <main class="container" style="min-height:60vh">
+    <section id="view-id-suggestions">
+      <div class="toolbar">
+        <div class="search" style="flex:1;max-width:920px">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          <input id="base" type="text" inputmode="latin" placeholder="Type a word to get username ideas for Instagram, Twitter (X), Google & more" aria-label="아이디에 포함할 키워드 입력 (영문/숫자)" />
+          <div class="actions">
+            <button id="shuffle" class="btn" type="button" title="새로 섞기">Shuffle</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters" role="tablist" aria-label="platform">
+        <button class="chip is-active" data-platform="instagram">Instagram</button>
+        <button class="chip" data-platform="twitter">Twitter (X)</button>
+        <button class="chip" data-platform="google">Google &amp; more</button>
+      </div>
+
+      <section id="grid" class="grid" aria-live="polite"></section>
+      <div id="empty" class="empty">No results</div>
+    </section>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <div id="toast" role="status" aria-live="polite">Copied!</div>
+
+  <script src="./include-layout.js" defer></script>
+  <script>
+    (function(){
+      if (document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', init, { once:true });
+      } else { init(); }
+    })();
+
+    function init(){
+      const $grid = document.getElementById('grid');
+      const $empty = document.getElementById('empty');
+      const $base  = document.getElementById('base');
+      let PLATFORM = 'instagram';
+
+      const RULES = {
+        instagram: { allow: /[a-z0-9._]/, dot:true, underscore:true, max:10 },
+        twitter:   { allow: /[a-z0-9_]/,   dot:false, underscore:true, max:10 },
+        google:    { allow: /[a-z0-9.]/,   dot:true, underscore:false, max:10 },
+      };
+      const CONNECTOR = { instagram:['','_','.'], twitter:['','_'], google:['','.'] };
+
+      const PREF = ['my','hi','its','iam','mr','ms','the','luv','mini','lil'];
+      const CORE = ['love','luv','cute','mint','bear','bun','cat','kitty','puppy','star','moon','sun','sky','berry','peach','cloud','snow','nova','pink'];
+      const SUFF = ['ie','ly','xo','x','sk','lab','dev','ai','gg','io','co','hq','pro','app','now'];
+      const NUMS = ['','0','1','2','3','7','8','9','24','99'];
+
+      function rand(n){ return Math.floor(Math.random()*n); }
+      function pick(arr){ return arr[rand(arr.length)]; }
+
+      function baseToken(){
+        const raw = ($base.value||'').toLowerCase();
+        return raw.replace(/[^a-z0-9]/g,'').slice(0,10);
+      }
+      function leetAll(s){ return s.replace(/l/g,'1').replace(/o/g,'0'); }
+      function leetPartial(s){
+        return s.split('').map(ch=>{
+          if (ch==='l' && Math.random()<0.7) return '1';
+          if (ch==='o' && Math.random()<0.7) return '0';
+          return ch;
+        }).join('');
+      }
+
+      function applyRules(u){
+        const r = RULES[PLATFORM];
+        u = u.toLowerCase().split('').filter(ch=>r.allow.test(ch)).join('');
+        u = u.replace(/^[_\.]+/, '').replace(/[_\.]+$/, '');
+        if (u.length > r.max) u = u.slice(0, r.max);
+        u = u.replace(/^[_\.]+/, '').replace(/[_\.]+$/, '');
+        return u;
+      }
+
+      function clipToMaxPreservingToken(s, token){
+        const max = RULES[PLATFORM].max;
+        const idx = s.indexOf(token);
+        if (idx === -1) return s.slice(0, max);
+        const room = max - token.length;
+        let leftRoom = Math.floor(room/2), rightRoom = room - leftRoom;
+        const left = Math.max(0, idx - leftRoom);
+        const right = Math.min(s.length, idx + token.length + rightRoom);
+        let out = s.slice(left, right);
+        out = out.replace(/^[_\.]+/, '').replace(/[_\.]+$/, '');
+        return out.slice(0, max);
+      }
+
+      function ensureContainsToken(u, tokens){
+        const has = tokens.some(t => t && u.includes(t));
+        if (has) return u;
+        const r = RULES[PLATFORM];
+        const c = pick(CONNECTOR[PLATFORM]);
+        let t = pick(tokens.filter(Boolean));
+        let cand = (rand(2) ? (t + c + u) : (u + c + t));
+        cand = applyRules(cand);
+        if (cand.length > r.max) cand = clipToMaxPreservingToken(cand, t);
+        return cand;
+      }
+
+      // 54개 생성
+      function makeCandidates(token){
+        const tokens = [token, leetAll(token)];
+        const conn = CONNECTOR[PLATFORM];
+        const out = new Set();
+
+        for (let i=0;i<600 && out.size<54;i++){
+          const t = pick([token, leetAll(token), leetPartial(token)]);
+          const p = pick(PREF), s = pick(SUFF), k = pick(CORE), c = pick(conn), n = pick(NUMS);
+
+          const patterns = [
+            `${p}${c}${t}${c}${s}`,
+            `${t}${c}${s}${n}`,
+            `${p}${c}${t}${n}`,
+            `${k}${c}${t}`,
+            `${t}${c}${k}`,
+            `${t}${n}`,
+            `${t}${c}${pick(['x','xx','xo','ox'])}`,
+            `${p}${c}${k}${c}${t}`,
+            `${t}${c}${pick(['ai','gg','io','co','hq'])}`,
+            `${t}${c}${pick(['pro','lab','dev','app'])}`,
+          ];
+
+          let cand = pick(patterns);
+          cand = applyRules(cand);
+          if (cand.length > RULES[PLATFORM].max){
+            const keep = pick(tokens);
+            cand = clipToMaxPreservingToken(cand, keep);
+          }
+          cand = ensureContainsToken(cand, tokens);
+          cand = cand.replace(/^[_\.]+/, '').replace(/[_\.]+$/, '');
+          if (cand && cand.length>=3) out.add(cand);
+        }
+        return [...out];
+      }
+
+      function render(){
+        const token = baseToken();
+        const list = token ? makeCandidates(token) : [];
+        $grid.innerHTML = '';
+        if (!list.length){ $empty.style.display='block'; return; }
+        $empty.style.display='none';
+        for (const name of list){
+          const card = document.createElement('div');
+          card.className = 'id-card';
+          card.innerHTML = `<div class="id-text">${escapeHtml(name)}</div>`;
+          card.addEventListener('click', ()=>copy(name));
+          $grid.appendChild(card);
+        }
+      }
+
+      function copy(s){
+        navigator.clipboard.writeText(s).catch(()=>{
+          const ta=document.createElement('textarea'); ta.value=s; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        });
+        toast('Copied!');
+      }
+      function toast(m){
+        let t=document.getElementById('toast');
+        if(!t){ t=document.createElement('div'); t.id='toast'; t.className='toast'; document.body.appendChild(t); }
+        t.textContent=m; t.classList.add('show'); clearTimeout(toast._t);
+        toast._t=setTimeout(()=>t.classList.remove('show'), 900);
+      }
+      function escapeHtml(s){ return s.replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\'':'&#39;' }[m])); }
+
+      document.querySelector('.filters').addEventListener('click', (e)=>{
+        const btn = e.target.closest('[data-platform]'); if(!btn) return;
+        document.querySelectorAll('.filters .chip').forEach(b=>b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        PLATFORM = btn.dataset.platform;
+        render();
+      });
+
+      $base.addEventListener('input', render);
+      document.getElementById('shuffle').addEventListener('click', ()=>{ render(); });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Line Art & Text Symbols - Cute CopyMoji | Stylish Line Decorations</title>
+<meta name="description" content="Decorate your messages with stylish line art and text symbols. Copy and paste unique line decorations for social media and chat apps with Cute CopyMoji.">
+
+  <link rel="stylesheet" href="./index.css" />
+
+  <style>
+    
+  /* ====== 필터 바 ====== */
+  .filters {
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+    gap:8px;
+  }
+  .filters .chip { margin:0; }
+  .filters.is-collapsed { max-height:40px; overflow:hidden; position:relative; }
+  .filters.is-collapsed::after {
+    content:""; position:absolute; right:0; top:0; bottom:0; width:48px;
+    background:linear-gradient(to right, transparent, var(--bg,#fff));
+    pointer-events:none;
+  }
+
+  /* ====== 긴 문자열 카드에 맞춘 레이아웃 ====== */
+  #grid{
+    display:grid;
+    /* 긴 라인 전용: 넓은 칼럼 + 자동 줄 수 */
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap:12px;
+    justify-content:center;
+    align-items:start;
+    margin-top:20px;
+  }
+
+  .emo-card{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    min-height:140px;              /* 기본 높이 */
+    max-height:220px;              /* 너무 길면 아래로 확장 제한 */
+    padding:10px 12px 12px 12px;   /* 상단 여백(즐겨찾기 버튼 고려) */
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:#fff;
+    transition:background .2s ease, box-shadow .2s ease, border-color .2s ease;
+    cursor:pointer;
+    overflow:hidden;               /* 긴 내용이 넘치면 안 보이도록 */
+  }
+  .emo-card:hover { background:var(--chip); border-color:var(--border); box-shadow:var(--shadow); }
+
+  .emo-meta{
+    position:absolute; top:8px; right:8px;
+  }
+  .fav-btn{
+    padding:2px 6px; font-size:12px;
+    border:1px solid var(--border); border-radius:8px;
+    background:var(--card);
+    cursor:pointer;
+  }
+  .fav-btn.is-active{ background:var(--chip); box-shadow:var(--shadow); }
+
+  /* 긴 텍스트: 어디서든 줄바꿈 + 보기 좋은 줄바꿈 우선 */
+  .emo-t{
+    flex:1;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    overflow-wrap:anywhere; word-break:break-word; text-wrap:pretty;
+    white-space:normal;
+    line-height:1.35;
+    font-size:10px;                /* 기본 */
+    margin-top:10px;
+  }
+
+  /* 너무 긴 문자열에 자동으로 살짝 더 작게 */
+  .emo-card[data-size="sm"] .emo-t { font-size:14px; }
+  .emo-card[data-size="xs"] .emo-t { font-size:12px; }
+
+  /* 토스트 */
+  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:var(--card);border:1px solid var(--border);
+    padding:8px 12px;border-radius:10px;box-shadow:var(--shadow);opacity:0;transition:opacity .2s}
+  #toast.show{opacity:1}
+
+  /* 모달 */
+  .filter-modal{ position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.35); display:none; }
+  .filter-modal.is-open{ display:block; }
+  .filter-modal .box{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:min(900px,92vw); max-height:80vh; overflow:auto;
+    background:#fff; border-radius:12px; padding:16px 16px 20px; box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .filter-modal .header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+  .filter-modal .title{ font-weight:700; font-size:16px; }
+  .filter-modal .close{ border:1px solid #ddd; background:#fff; border-radius:10px; padding:6px 10px; cursor:pointer; }
+  .filter-modal .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px; }
+  .filter-modal .chip{ width:100%; text-align:center; }
+
+
+
+
+  </style>
+</head>
+
+<body class="theme-pink">
+  <div id="app-header"></div>
+
+  <main class="container" style="min-height:60vh">
+    <!-- LINE 
+    <section id="view-line">
+      <div class="toolbar">
+        <div class="search">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          <input id="q" type="search" placeholder="Search | e.g. Love, decorative" aria-label="Search LINE texts" data-i18n-placeholder="searchPlaceholder"/>
+        </div>
+      </div> -->
+
+      <div class="content">
+        <div class="filters" role="tablist" aria-label="filters" hidden aria-hidden="true" style="display:none"><!--hidden aria-hidden="true" style="display:none" 필터 숨김-->
+          <span class="hint" style="align-self:center"></span>
+          <button class="chip is-active" data-filter="all" data-i18n="all">All</button>
+          <!-- 기본 몇 개만 하드코어, 나머지 태그는 데이터에서 자동 생성 -->
+          <button class="chip" data-filter="love"   data-i18n="love">Love</button>
+          <button class="chip" data-filter="pretty" data-i18n="pretty">Pretty</button>
+          <button class="chip" data-filter="cute"   data-i18n="cute">Cute</button>
+          <button class="chip" data-filter="sparkle"data-i18n="sparkle">Sparkle</button>
+        </div>
+
+        <section id="grid" class="grid" aria-live="polite"></section>
+        <div id="empty" class="empty" data-i18n="noresults">No results.</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
+
+  <div id="app-footer"></div>
+  <script src="./include-layout.js" defer></script>
+
+  <script>
+    /* ===== LINE page: render + favorites + search/filters ===== */
+    const LINE_CUSTOM_KEY = 'line.custom.v1';
+    const LINE_FAV_KEY    = 'line.favs.v1';
+
+    /* 데이터 로드 (외부 파일에서 window.LINE_ITEMS 또는 const LINE_ITEMS 지원) */
+    function loadCustom(){ try{ return JSON.parse(localStorage.getItem(LINE_CUSTOM_KEY)||'[]'); }catch{ return []; } }
+    function loadFavs(){   try{ return JSON.parse(localStorage.getItem(LINE_FAV_KEY)||'[]'); }catch{ return []; } }
+    function saveFavs(v){ localStorage.setItem(LINE_FAV_KEY, JSON.stringify(v)); }
+    function isFav(t){ return loadFavs().includes(t); }
+    function toggleFav(t){ const f=loadFavs(); const i=f.indexOf(t); if(i>=0)f.splice(i,1); else f.push(t); saveFavs(f); }
+
+    function allItems(){
+      const base = (window.LINE_ITEMS || (typeof LINE_ITEMS!=='undefined' ? LINE_ITEMS : []));
+      const seen = new Set(), out=[...loadCustom()];
+      for (const it of base) {
+        if (!it || !it.t) continue;
+        if (seen.has(it.t)) continue;
+        seen.add(it.t);
+        out.push(it);
+      }
+      return out;
+    }
+
+    const $grid  = document.getElementById('grid');
+    const $empty = document.getElementById('empty');
+    const $q     = document.getElementById('q');
+    let FILTER = 'all';
+
+    function matchesFilter(it){
+      if (FILTER==='all') return true;
+      if (FILTER==='favorites') return isFav(it.t);
+      const tags = (it.g || []).map(s=>String(s).toLowerCase());
+      return tags.includes(FILTER);
+    }
+    function matchesQuery(it, q){
+      if(!q) return true;
+      q = q.toLowerCase();
+      return (it.t||'').toLowerCase().includes(q)
+          || (it.l||'').toLowerCase().includes(q)
+          || ((it.g||[]).join(' ').toLowerCase().includes(q));
+    }
+
+    function sizeFlagFor(text){
+      // 아주 러프하게 길이에 따라 폰트 크기 플래그 결정
+      const len = (text||'').length;
+      if (len > 80) return 'xs';
+      if (len > 48) return 'sm';
+      return '';
+    }
+
+    function render(){
+      const query = ($q?.value||'').trim();
+      const items = allItems().filter(it=>matchesFilter(it) && matchesQuery(it, query));
+
+      $grid.innerHTML = '';
+      if (!items.length){ $empty.style.display='block'; return; }
+      $empty.style.display='none';
+
+      for (const it of items){
+        const favInit = isFav(it.t);
+        const sizeFlag = sizeFlagFor(it.t);
+
+        const card = document.createElement('button');
+        card.type='button';
+        card.className='emo-card' + (favInit?' is-fav':'');
+        if (sizeFlag) card.dataset.size = sizeFlag;
+
+        card.innerHTML = `
+          <div class="emo-t">${escapeHtml(it.t)}</div>
+          <div class="emo-meta">
+            <button class="fav-btn${favInit?' is-active':''}" type="button" aria-label="favorite" title="favorite">${favInit?'★':'☆'}</button>
+          </div>
+        `;
+
+        // 텍스트 클릭 → 복사
+        card.querySelector('.emo-t').addEventListener('click', async (e)=>{
+          e.stopPropagation();
+          await copyText(it.t); toast('Copied!');
+        });
+
+        // 즐겨찾기 토글
+        const favBtn = card.querySelector('.fav-btn');
+        favBtn.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          toggleFav(it.t);
+          const nowFav = isFav(it.t);
+          favBtn.textContent = nowFav ? '★' : '☆';
+          favBtn.classList.toggle('is-active', nowFav);
+        });
+
+        $grid.appendChild(card);
+      }
+    }
+
+    // 필터/검색 바인딩
+    document.querySelector('.filters')?.addEventListener('click', (e)=>{
+      const btn = e.target.closest('[data-filter]'); if(!btn) return;
+      document.querySelectorAll('.filters .chip').forEach(b=>b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      FILTER = (btn.dataset.filter||'all').toLowerCase();
+      render();
+    });
+    $q?.addEventListener('input', render);
+
+    // 유틸
+    function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+    async function copyText(s){
+      try{ await navigator.clipboard.writeText(s); }
+      catch{
+        const ta=document.createElement('textarea'); ta.value=s;
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+      }
+    }
+    function toast(msg){
+      let t=document.getElementById('toast');
+      if(!t){ t=document.createElement('div'); t.id='toast'; t.className='toast'; document.body.appendChild(t); }
+      t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t);
+      toast._t=setTimeout(()=>t.classList.remove('show'), 900);
+    }
+  </script>
+
+  <!-- ===== 데이터 & 초기화 ===== -->
+  <script src="./line-data.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      if (!window.LINE_ITEMS && typeof LINE_ITEMS !== 'undefined') {
+        window.LINE_ITEMS = LINE_ITEMS;
+      }
+      document.dispatchEvent(new Event('linedata:ready'));
+    });
+  </script>
+
+  <!-- 태그 자동 생성 + 모달(Show All Filters) -->
+  <div id="filterModal" class="filter-modal" aria-hidden="true">
+    <div class="box" role="dialog" aria-modal="true" aria-labelledby="filterModalTitle">
+      <div class="header">
+        <div id="filterModalTitle" class="title" data-i18n="allfilters">All Filters</div>
+        <button class="close" type="button" data-action="closeFilterModal" data-i18n="close">Close</button>
+      </div>
+      <div class="grid" id="filterModalGrid"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const filtersEl = document.querySelector('.filters');
+    const modalEl   = document.getElementById('filterModal');
+    const modalGrid = document.getElementById('filterModalGrid');
+    if (!filtersEl || !modalEl || !modalGrid) return;
+
+    filtersEl.classList.add('is-collapsed');
+
+    // Show All Filters 버튼 보장(Always before "All")
+    const allBtn = filtersEl.querySelector('[data-filter="all"]');
+    let showAll  = filtersEl.querySelector('[data-filter="__alltags__"]');
+    if (!showAll){
+      showAll = document.createElement('button');
+      showAll.className='chip';
+      showAll.dataset.filter='__alltags__';
+      showAll.textContent='Show All Filters';
+      // i18n 키 달기(있으면 번역됨)
+      showAll.setAttribute('data-i18n','showallfilters');
+      allBtn?.insertAdjacentElement('beforebegin', showAll);
+    } else {
+      showAll.textContent = 'Show All Filters';
+    }
+
+    // 데이터 준비되면 태그 자동 생성
+    function makeTagButtons(){
+      const have = new Set(
+        [...filtersEl.querySelectorAll('[data-filter]')].map(b=>(b.dataset.filter||'').toLowerCase())
+      );
+      const tags = new Set();
+      (window.LINE_ITEMS || []).forEach(it => (it.g||[]).forEach(tag => tags.add(String(tag).toLowerCase())));
+      const frag = document.createDocumentFragment();
+      [...tags].filter(t => t!=='all' && t!=='__alltags__' && !have.has(t))
+               .sort((a,b)=>a.localeCompare(b))
+               .forEach(t=>{
+                  const btn = document.createElement('button');
+                  btn.className='chip';
+                  btn.dataset.filter=t;
+                  btn.textContent=t.charAt(0).toUpperCase()+t.slice(1);
+                  frag.appendChild(btn);
+               });
+      filtersEl.appendChild(frag);
+
+      // 한 줄 최대 10개만 보이게 (Show All Filters / All 제외)
+      const buttons = [...filtersEl.querySelectorAll('.chip')].filter(b=>{
+        const df=(b.dataset.filter||'').toLowerCase();
+        return df && df!=='__alltags__' && df!=='all';
+      });
+      buttons.forEach((btn,i)=>{ btn.style.display = i<10 ? '' : 'none'; });
+    }
+
+        // 데이터 준비되면 태그 자동 생성 + 첫 렌더
+        document.addEventListener('linedata:ready', () => {
+        makeTagButtons();
+        FILTER = 'all';   // (안전) 혹시 모를 상태 꼬임 방지
+        render();         // ✅ 최초 진입 시 바로 All 결과 출력
+        });
+
+
+    // 모달 열기/닫기
+    function openModal(){
+      modalGrid.innerHTML='';
+      [...filtersEl.querySelectorAll('.chip')].forEach(src=>{
+        const df=(src.dataset.filter||'').toLowerCase();
+        if (!df || df==='__alltags__' || df==='all') return;
+        const b=document.createElement('button');
+        b.className='chip'; b.type='button'; b.dataset.filter=df; b.textContent=src.textContent;
+        modalGrid.appendChild(b);
+      });
+      modalEl.classList.add('is-open');
+      modalEl.setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      modalEl.classList.remove('is-open');
+      modalEl.setAttribute('aria-hidden','true');
+    }
+
+    filtersEl.addEventListener('click',(e)=>{
+      const btn=e.target.closest('.chip'); if(!btn) return;
+      const df=(btn.dataset.filter||'').toLowerCase();
+      if (df==='__alltags__'){ openModal(); return; }
+    });
+
+    modalEl.addEventListener('click',(e)=>{
+      if (e.target.matches('[data-action="closeFilterModal"]') || e.target===modalEl){ closeModal(); return; }
+      const tagBtn=e.target.closest('.chip');
+      if (tagBtn){
+        const df=tagBtn.dataset.filter;
+        const real=filtersEl.querySelector(`.chip[data-filter="${CSS.escape(df)}"]`);
+        if (real) real.click();
+        closeModal();
+      }
+    });
+
+    // 언어 바뀔 때 placeholder 갱신 (include-layout.js에서 이벤트 쏠 경우)
+    document.addEventListener('language:changed', ()=>{
+      const LANGS = window.languages||{}; const cl = localStorage.getItem('emo.language')||'en';
+      const t = k => (LANGS[cl]||LANGS.en||{})[k] ?? (LANGS.en?LANGS.en[k]:k) ?? k;
+
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key=el.getAttribute('data-i18n');
+        el.textContent = t(key);
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+        const key=el.getAttribute('data-i18n-placeholder');
+        el.setAttribute('placeholder', t(key));
+        el.setAttribute('aria-label', t(key));
+      });
+    });
+  })();
+  </script>
+</body>
+</html>
