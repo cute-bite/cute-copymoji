@@ -671,10 +671,7 @@ html, body{ overflow-x: hidden; }
           </span></button>
           <div class="settings-menu">
             <!-- ✅ Settings 안의 Favorites는 원래부터 제거 상태 유지 -->
-            <a href="add.html">
-              <svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><rect class="fill" x="4" y="4" width="16" height="16" rx="4"></rect><path class="stroke" d="M12 8v8M8 12h8"></path></svg>
-             <span class="menu-label">Add
-            </span></a>
+
             <button id="menuTheme" class="settings-item" aria-label="Theme picker">
               <svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><circle class="fill" cx="12" cy="12" r="9"></circle><path class="stroke" d="M12 2v20M2 12h20"></path></svg>
              <span class="menu-label">Theme
