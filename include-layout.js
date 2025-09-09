@@ -568,7 +568,7 @@ html, body{ overflow-x: hidden; }
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
 <link rel="manifest" href="site.webmanifest?v=2">
 
-<meta name="theme-color" content="#ff8fcf">
+
 
 
 
