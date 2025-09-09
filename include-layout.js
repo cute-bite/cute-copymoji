@@ -584,14 +584,14 @@ html, body{ overflow-x: hidden; }
       </div>
 
       <nav class="menu" aria-label="Primary">
-        <a href="index.html">
+        <a href="/">
           <svg class="mi" viewBox="0 0 24 24" aria-hidden="true">
   <path class="fill" d="M4 11.5l8-6 8 6V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-8.5z"></path>
   <path class="stroke" d="M4 11.5l8-6 8 6M9 21v-6h6v6"></path>
 </svg>
           <span class="menu-label">Home
         </span></a>
-        <a href="emoticon.html">
+        <a href="/">
           <svg class="mi" viewBox="0 0 24 24" aria-hidden="true">
   <circle class="fill" cx="12" cy="12" r="9"></circle>
   <circle class="stroke" cx="9" cy="10" r="1"></circle>
@@ -602,7 +602,7 @@ html, body{ overflow-x: hidden; }
           <span class="menu-label">Emoticon
         </span></a>
 
-        <a href="line.html">
+        <a href="/">
   <svg class="mi" viewBox="0 0 24 24" aria-hidden="true">
     <!-- Line 아이콘 예시: 채팅 말풍선 모양 -->
     <path class="fill" d="M20 2H4a2 2 0 0 0-2 2v14l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"></path>
@@ -612,7 +612,7 @@ html, body{ overflow-x: hidden; }
 </a>
 
 <!-- emoji -->
-<a href="emoji.html">
+<a href="/">
   <svg class="mi" viewBox="0 0 24 24" aria-hidden="true">
     <path class="fill" d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.54 2 9.28 2 6.5 4.24 4.25 7 4.25c1.54 0 3.04.73 4 1.87 0 0 2.46-3.12 6-1.37 1.2.57 2 1.86 2 3.28 0 3.26-3.14 6.08-8.9 11.08l-1 0.94z"></path>
     <path class="stroke" d="M12 20s-5.5-3.5-8-6.7C1.6 11 .9 8.7 2.2 6.9 3.8 4.7 7 4.3 8.9 6.1L12 9.1l3.1-3c1.9-1.8 5.1-1.4 6.7.8 1.3 1.8.6 4.1-1.8 6.4C17.5 16.5 12 20 12 20z"></path>
@@ -622,7 +622,7 @@ html, body{ overflow-x: hidden; }
 
 
 
-        <a href="dotart.html">
+        <a href="/">
           <svg class="mi" viewBox="0 0 24 24" aria-hidden="true">
             <g class="stroke">
               <rect x="4" y="4" width="6" height="6" rx="1" fill="none" stroke-width="1.4"></rect>
@@ -636,7 +636,7 @@ html, body{ overflow-x: hidden; }
 
 
 <!-- fonts -->
-<a href="fonts.html" class="menu-item">
+<a href="/" class="menu-item">
   <svg class="mi" viewBox="0 0 24 24" aria-hidden="true">
     <path class="fill" d="M3 18h18v2H3z"></path>
     <path class="stroke" d="M8 16l4-10 4 10M9.5 12h5M6 16h12"></path>
@@ -645,7 +645,7 @@ html, body{ overflow-x: hidden; }
 </a>
 
 <!-- username -->
-<a href="username.html" class="menu-item">
+<a href="/" class="menu-item">
   <svg class="mi" viewBox="0 0 24 24" aria-hidden="true">
     <path class="fill" d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4z"></path>
     <path class="fill" d="M4 20c0-2.66 5.33-4 8-4s8 1.34 8 4v2H4v-2z"></path>
@@ -655,7 +655,7 @@ html, body{ overflow-x: hidden; }
 </a>
 
 <!-- favorites -->
-<a href="favorites.html" class="menu-item">
+<a href="/" class="menu-item">
   <svg class="mi" viewBox="0 0 24 24" aria-hidden="true">
     <path class="fill" d="M12 4l2.5 5.1 5.6.8-4.05 3.95.96 5.55L12 16.9 6.99 19.4l.96-5.55L3.9 9.9l5.6-.8L12 4z"></path>
     <path class="stroke" d="M12 4l2.5 5.1 5.6.8-4.05 3.95.96 5.55L12 16.9 6.99 19.4l.96-5.55L3.9 9.9l5.6-.8L12 4z"></path>
@@ -671,7 +671,7 @@ html, body{ overflow-x: hidden; }
           </span></button>
           <div class="settings-menu">
             <!-- ✅ Settings 안의 Favorites는 원래부터 제거 상태 유지 -->
-            <a href="add.html">
+            <a href="/">
               <svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><rect class="fill" x="4" y="4" width="16" height="16" rx="4"></rect><path class="stroke" d="M12 8v8M8 12h8"></path></svg>
              <span class="menu-label">Add
             </span></a>
@@ -847,9 +847,9 @@ html, body{ overflow-x: hidden; }
 
     
   <div class="footer-links">
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="terms.html">Terms of Service</a>
-    <a href="contact.html">Contact</a>
+    <a href="/">Privacy Policy</a>
+    <a href="/">Terms of Service</a>
+    <a href="/">Contact</a>
   </div>
   <div class="footer-copy">© 2025 Cute CopyMoji. All rights reserved.</div>
 
