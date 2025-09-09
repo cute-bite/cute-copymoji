@@ -600,6 +600,16 @@ html, body{ overflow-x: hidden; }
 <meta name="twitter:image" content="https://cutecopymoji.com/og-cover.png">
 
 
+<link rel="alternate" href="https://cutecopymoji.com/?lang=en" hreflang="en" />
+<link rel="alternate" href="https://cutecopymoji.com/?lang=ko" hreflang="ko" />
+<link rel="alternate" href="https://cutecopymoji.com/?lang=ja" hreflang="ja" />
+<link rel="alternate" href="https://cutecopymoji.com/?lang=es" hreflang="es" />
+<link rel="alternate" href="https://cutecopymoji.com/?lang=pt" hreflang="pt" />
+<link rel="alternate" href="https://cutecopymoji.com/?lang=de" hreflang="de" />
+<link rel="alternate" href="https://cutecopymoji.com/?lang=fr" hreflang="fr" />
+
+
+
 
 </head>
 <body class="theme-pink">
@@ -984,6 +994,65 @@ html, body{ overflow-x: hidden; }
     de: { home:'Start', emoticon:'Emoticons', line:'Linie', emoji:'Emoji', ascii:'ASCII', fonts:'Schriftarten', dotart:'Punktkunst', username:'ID Vorschläge', favorites:'Favoriten', add:'Hinzufügen', theme:'Thema', language:'Sprache', inquiry:'Anfrage', settings:'Einstellungen', quickAccess:'Schnellzugriff', searchPlaceholder:'Emoticons suchen… (Enter zum Öffnen)', subtitle:'Kostenlose Online-Emoji-Tastatur ☀️ – Emojis für Soziale Medien Einfach Kopieren & Einfügen' },
     fr: { home:'Accueil', emoticon:'Émoticônes', line:'Ligne', emoji:'Emoji', ascii:'ASCII', fonts:'Polices', dotart:'Art en points', username:"ID Joli", favorites:'Favoris', add:'Ajouter', theme:'Thème', language:'Langue', inquiry:'Contact', settings:'Paramètres', quickAccess:'Accès rapide', searchPlaceholder:'Rechercher des émoticônes… (Entrée pour ouvrir Emoticon)', subtitle:'Clavier Emoji Gratuit en Ligne ☀️ – Copier-Coller des Emojis pour Réseaux Sociaux en Un Clic' }
   };
+
+
+  // === Language-based Meta Tags ===
+(function(){
+  const metaData = {
+    en: {
+      title: "Cute CopyMoji – Free Emoji Keyboard",
+      desc: "Copy/paste emojis, kaomoji, ASCII, dot art and fonts — fast, free, one-click."
+    },
+    ko: {
+      title: "Cute CopyMoji – 무료 이모지 키보드",
+      desc: "이모지, 이모티콘, ASCII·도트아트·폰트를 무료 복사/붙여넣기 – 원클릭."
+    },
+    ja: {
+      title: "Cute CopyMoji – 無料の絵文字キーボード",
+      desc: "絵文字・顔文字・ASCII・ドットアート・フォントを無料でコピー＆ペースト。"
+    },
+    es: {
+      title: "Cute CopyMoji – Teclado de Emoji Gratis",
+      desc: "Copia y pega emojis, kaomoji, arte ASCII, puntos y fuentes gratis en un clic."
+    },
+    pt: {
+      title: "Cute CopyMoji – Teclado de Emojis Grátis",
+      desc: "Copie/cole emojis, kaomoji, arte ASCII, arte de pontos e fontes grátis em um clique."
+    },
+    de: {
+      title: "Cute CopyMoji – Kostenloses Emoji-Keyboard",
+      desc: "Emojis, Kaomoji, ASCII, Punktkunst & Schriftarten kostenlos kopieren und einfügen."
+    },
+    fr: {
+      title: "Cute CopyMoji – Clavier Emoji Gratuit",
+      desc: "Copiez/collez des emojis, kaomoji, ASCII, art en points et polices gratuitement en un clic."
+    }
+  };
+
+  function setMeta(lang){
+    const data = metaData[lang] || metaData.en;
+
+    // <title>
+    document.title = data.title;
+
+    // <meta name="description">
+    let descTag = document.querySelector("meta[name='description']");
+    if(!descTag){
+      descTag = document.createElement("meta");
+      descTag.setAttribute("name", "description");
+      document.head.appendChild(descTag);
+    }
+    descTag.setAttribute("content", data.desc);
+  }
+
+  // 현재 언어 감지 (예: ?lang=ko)
+  const params = new URLSearchParams(window.location.search);
+  const lang = params.get("lang") || "en";
+
+  // 메타 태그 세팅
+  setMeta(lang);
+})();
+
 
 // Injected: localized short/full labels for Dot/ASCII
 try{
