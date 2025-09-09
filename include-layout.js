@@ -1005,7 +1005,7 @@ html, body{ overflow-x: hidden; }
     },
     ko: {
       title: "Cute CopyMoji – 무료 이모지 키보드",
-      desc: "이모지, 이모티콘, ASCII·도트아트·폰트를 무료 복사/붙여넣기 – 원클릭."
+      desc: "이모지, 이모티콘, 아스키아트·도트아트·폰트를 무료 복사/붙여넣기 – 원클릭."
     },
     ja: {
       title: "Cute CopyMoji – 無料の絵文字キーボード",
