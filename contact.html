@@ -6,7 +6,6 @@
   <title>Contact Us - Cute CopyMoji | Inquiries & Support</title>
 <meta name="description" content="Have questions or feedback? Contact Cute CopyMoji for inquiries, support, or collaboration opportunities. We're here to help.">
 
-  <meta name="description" content="Contact Cute CopyMoji." />
   <link rel="icon" href="favicon.ico" />
   <script src="include-layout.js" defer></script>
   <style>
@@ -88,13 +87,29 @@
     <a href="mailto:infodeskline@gmail.com">infodeskline@gmail.com</a>
   </p>
 
-  <form id="contactForm">
-    <div class="grid">
-      <!-- (기존 폼 필드 계속) -->
+ <form id="contactForm" class="contact-form">
+   <div class="grid two">
+     <label id="labelName">Name
+       <input name="name" type="text" required />
+     </label>
+     <label id="labelEmail">Email
+       <input name="email" type="email" required />
+     </label>
+   </div>
+   <label id="labelSubject">Subject
+     <input name="subject" type="text" required />
+   </label>
+   <label id="labelMessage">Message
+     <textarea name="message" required></textarea>
+   </label>
+   <div class="center" style="margin-top:12px">
+     <button id="sendBtn" class="btn primary" type="submit">Send via Email</button>
+   </div>
+ </form>
+ </div>
 
 
-</div></div>
-<div id="faqWrapper">
+ <div id="faqWrapper">
 <!-- FAQ START -->
 <div class="card faq-section" style="margin-top:20px">
   <h2 id="faqTitle">FAQ</h2>
@@ -270,7 +285,7 @@ ${fd.get('message')}`
 
 <script>
   (function(){
-    const I18N = {
+    const I18N_CONTACT = {
       ko: {
         sendTitle: "문의하기",
         sendBtn: "이메일로 보내기",
@@ -437,7 +452,7 @@ ${fd.get('message')}`
     }
 
     function applyI18nContact(lang){
-      const t = I18N[lang] || I18N.ko;
+      const t = (I18N_CONTACT && I18N_CONTACT[lang]) || (I18N && I18N[lang]) || I18N.ko;
       const q = (sel)=>document.querySelector(sel);
       // Headings & labels
       q('#sendTitle') && (q('#sendTitle').textContent = t.sendTitle);
