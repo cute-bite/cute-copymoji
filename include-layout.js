@@ -568,9 +568,17 @@ html, body{ overflow-x: hidden; }
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
 <link rel="manifest" href="site.webmanifest?v=2">
 
+<meta name="theme-color" content="#ff8fcf">
 
 
-
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-939VP60V1C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-939VP60V1C');
+</script>
 
 
 </head>
