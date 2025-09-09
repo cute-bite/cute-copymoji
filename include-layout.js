@@ -584,6 +584,22 @@ html, body{ overflow-x: hidden; }
      crossorigin="anonymous"></script>
 
 
+<!-- Open Graph 기본 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cute CopyMoji">
+<meta property="og:url" content="https://cutecopymoji.com/">
+<meta property="og:image" content="https://cutecopymoji.com/og-cover.png">
+
+<meta property="og:title" content="Cute CopyMoji - Free Online Emoji Keyboard ☀️ Copy & Paste Emojis">
+<meta property="og:description" content="Free emoji keyboard to copy/paste emojis, kaomoji, ASCII art, dot art, fonts — all in one click.">
+
+<!-- Twitter 카드 -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cute CopyMoji - Free Online Emoji Keyboard ☀️ Copy & Paste Emojis">
+<meta name="twitter:description" content="Free emoji keyboard to copy/paste emojis, kaomoji, ASCII art, dot art, fonts — all in one click.">
+<meta name="twitter:image" content="https://cutecopymoji.com/og-cover.png">
+
+
 
 </head>
 <body class="theme-pink">
