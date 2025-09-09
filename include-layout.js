@@ -557,8 +557,7 @@ html, body{ overflow-x: hidden; }
 
 </style>
 
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID" crossorigin="anonymous"></script>
+
 
 
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2">
@@ -584,7 +583,7 @@ html, body{ overflow-x: hidden; }
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4324510515730355"
      crossorigin="anonymous"></script>
 
-     
+
 
 </head>
 <body class="theme-pink">
