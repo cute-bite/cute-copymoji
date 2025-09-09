@@ -581,6 +581,11 @@ html, body{ overflow-x: hidden; }
 </script>
 
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4324510515730355"
+     crossorigin="anonymous"></script>
+
+     
+
 </head>
 <body class="theme-pink">
 <div class="container">
