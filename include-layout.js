@@ -554,6 +554,18 @@ html, body{ overflow-x: hidden; }
 
 
 
+/* 광고로 인한 padding-top 여백 강제 제거 */
+html[style*="padding-top"], body[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+/* 헤더 sticky 확정 */
+[data-site-header] header {
+  position: sticky !important;
+  top: 0;
+  z-index: 1000;
+}
+
 
 </style>
 
@@ -1986,6 +1998,32 @@ if (btnTop && !btnTop.dataset.bound) {
   `);
 })();
 
+
+// 인페이지 광고 비면 자동 숨김
+(function(){
+  const ad = document.getElementById('ad-inpage');
+  if(!ad) return;
+  const hideIfEmpty = ()=>{
+    const h = ad.getBoundingClientRect().height;
+    ad.style.display = h < 5 ? 'none' : '';
+  };
+  new MutationObserver(hideIfEmpty).observe(ad, {subtree:true, childList:true, attributes:true});
+  addEventListener('load', hideIfEmpty);
+  addEventListener('resize', hideIfEmpty);
+})();
+
+// [옵션] 본문 인페이지 광고가 비면 자동 접기
+(function(){
+  const ad = document.getElementById('ad-inpage');
+  if(!ad) return;
+  const hideIfEmpty = ()=>{
+    const h = ad.getBoundingClientRect().height;
+    ad.style.display = h < 5 ? 'none' : '';
+  };
+  new MutationObserver(hideIfEmpty).observe(ad, {subtree:true, childList:true, attributes:true});
+  addEventListener('load', hideIfEmpty);
+  addEventListener('resize', hideIfEmpty);
+})();
 
 
 
